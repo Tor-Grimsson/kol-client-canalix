@@ -3,7 +3,12 @@ import { NavLink } from 'react-router-dom'
 export default function TopNav() {
   return (
     <nav className="kol-topnav">
-      <NavLink to="/" className="kol-topnav__brand" end>
+      <NavLink
+        to="/"
+        className="kol-topnav__brand"
+        end
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      >
         kol-canalix
       </NavLink>
       <div className="kol-topnav__links">
