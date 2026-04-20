@@ -1,0 +1,44 @@
+<svg width="760" height="600" viewBox="0 0 760 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_48_403487)">
+<rect width="600" height="440" transform="translate(80 72)" fill="#202A42"/>
+<mask id="path-1-inside-1_48_403487" fill="white">
+<path d="M80 72H120V512H80V72Z"/>
+</mask>
+<path d="M80 72H120V512H80V72Z" fill="white" fill-opacity="0.04"/>
+<path d="M119 72V512H121V72H119Z" fill="#536175" mask="url(#path-1-inside-1_48_403487)"/>
+<rect opacity="0.4" x="92" y="136" width="16" height="16" rx="8" fill="white"/>
+<rect opacity="0.4" x="92" y="168" width="16" height="16" rx="8" fill="white"/>
+<rect opacity="0.4" x="92" y="200" width="16" height="16" rx="8" fill="white"/>
+<rect opacity="0.4" x="92" y="232" width="16" height="16" rx="8" fill="white"/>
+<rect x="114" y="122" width="12" height="12" rx="6" fill="#FFCC00"/>
+<rect x="132" y="84" width="536" height="70" rx="6" fill="white" fill-opacity="0.02"/>
+<path d="M151 103H241" stroke="#F2F4F7" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="148" y="126" width="504" height="1" rx="0.5" fill="white" fill-opacity="0.08"/>
+<path d="M154 153H216.25" stroke="#FFCF33" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M144.75 185.5H655.25" stroke="#8491B2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="162" y="205" width="18" height="18" rx="9" fill="white" fill-opacity="0.3"/>
+<path d="M175.999 210.25L169.124 217.125L165.999 214" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect width="449" height="4.50001" transform="translate(189 211.75)" fill="white" fill-opacity="0.01"/>
+<path d="M191.25 214L635.75 214" stroke="#F2F4F7" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="162" y="235" width="18" height="18" rx="9" fill="white" fill-opacity="0.3"/>
+<path d="M175.999 240.25L169.124 247.125L165.999 244" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect width="449" height="4.50001" transform="translate(189 241.75)" fill="white" fill-opacity="0.01"/>
+<path d="M191.25 244L635.75 244" stroke="#F2F4F7" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="132" y="283" width="536" height="124" rx="6" fill="white" fill-opacity="0.02"/>
+<path d="M151 302H241" stroke="#F2F4F7" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="148" y="325" width="504" height="66" rx="3" fill="white" fill-opacity="0.08"/>
+<rect width="452" height="12" transform="translate(150 452)" fill="white" fill-opacity="0.01"/>
+<path d="M156 458L596 458" stroke="#FFCF33" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<filter id="filter0_d_48_403487" x="0" y="0" width="760" height="600" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="8"/>
+<feGaussianBlur stdDeviation="40"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.12549 0 0 0 0 0.164706 0 0 0 0 0.258824 0 0 0 0.12 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_48_403487"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_48_403487" result="shape"/>
+</filter>
+</defs>
+</svg>

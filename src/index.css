@@ -4,4 +4,5 @@
 @import "./styles/kol-color-simple.css";
 @import "./styles/kol-typography-mono.css";
 @import "./styles/components.css";
+@import "./styles/table.css";
 @import "./styles/app.css";
