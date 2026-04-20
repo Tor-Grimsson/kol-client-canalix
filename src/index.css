@@ -1,0 +1,5 @@
+@import "tailwindcss";
+@import "./styles/theme.css";
+@import "./styles/kol-color-simple.css";
+@import "./styles/kol-typography-mono.css";
+@import "./styles/components.css";
