@@ -118,33 +118,38 @@ export default function Casedoc() {
           <p className="kol-page__section-label">02 — concept</p>
           <h2 className="kol-page__section-title">The feather of Maat</h2>
         </div>
-        <div className="kol-prose">
-          <p><em>Above as below — justice is a feather.</em></p>
-          <p>
-            The Casedoc logomark is a feather — the feather of justice, borrowed
-            from the Egyptian goddess <strong>Maat</strong>, whose name translates
-            to <em>Order</em>. In Egyptian mythology her feather was weighed against
-            the heart of the deceased to reveal innocence or guilt on the balanced
-            scale.
-          </p>
-          <p>
-            Maat personifies truth, balance, order, harmony, law, morality, and
-            justice — <em>the light to the dark, the yin to the yang</em>. Casedoc's
-            brand leans on this myth as a neutral, cross-cultural emblem of fair
-            adjudication.
-          </p>
-          <h3>Product pillars</h3>
-          <ul>
-            <li><strong>Digital Court Evolution</strong> — fluent transfer to automated, paper-free workflows</li>
-            <li><strong>Virtual Hearing</strong> — turn a regular virtual meeting into a digital courtroom</li>
-            <li><strong>Intelligent End-to-end Solutions</strong> — transparent, impartial, superior justice</li>
-          </ul>
-          <h3>Backstory</h3>
-          <p>
-            Casedoc was formerly sold as "GoPro". Hugvit approached Kolkrabbi in
-            Spring 2020 to give a decade-old Icelandic government case-management
-            tool commercial life under a new brand.
-          </p>
+        <div className="kol-concept-row">
+          <div className="kol-prose">
+            <p><em>Above as below — justice is a feather.</em></p>
+            <p>
+              The Casedoc logomark is a feather — the feather of justice, borrowed
+              from the Egyptian goddess <strong>Maat</strong>, whose name translates
+              to <em>Order</em>. In Egyptian mythology her feather was weighed against
+              the heart of the deceased to reveal innocence or guilt on the balanced
+              scale.
+            </p>
+            <p>
+              Maat personifies truth, balance, order, harmony, law, morality, and
+              justice — <em>the light to the dark, the yin to the yang</em>. Casedoc's
+              brand leans on this myth as a neutral, cross-cultural emblem of fair
+              adjudication.
+            </p>
+            <h3>Product pillars</h3>
+            <ul>
+              <li><strong>Digital Court Evolution</strong> — fluent transfer to automated, paper-free workflows</li>
+              <li><strong>Virtual Hearing</strong> — turn a regular virtual meeting into a digital courtroom</li>
+              <li><strong>Intelligent End-to-end Solutions</strong> — transparent, impartial, superior justice</li>
+            </ul>
+            <h3>Backstory</h3>
+            <p>
+              Casedoc was formerly sold as "GoPro". Hugvit approached Kolkrabbi in
+              Spring 2020 to give a decade-old Icelandic government case-management
+              tool commercial life under a new brand.
+            </p>
+          </div>
+          <figure className="kol-concept-row__figure">
+            <img src="/brand/casedoc/maat.svg" alt="Maat — goddess of justice" />
+          </figure>
         </div>
       </section>
 

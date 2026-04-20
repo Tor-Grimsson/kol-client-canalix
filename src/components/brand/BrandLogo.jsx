@@ -12,12 +12,15 @@ export const BRAND_LOGOS = Object.fromEntries(
   Object.entries(LOGO_CACHE).map(([brand, logos]) => [brand, Object.keys(logos).sort()])
 )
 
-export default function BrandLogo({ brand, name = 'logomark', className = '', style, title }) {
-  const markup = LOGO_CACHE[brand]?.[name]
-  if (!markup) {
+const CANALIX_NAVY = /#142438/gi
+
+export default function BrandLogo({ brand, name = 'logomark', className = '', style, title, light = false }) {
+  const raw = LOGO_CACHE[brand]?.[name]
+  if (!raw) {
     if (import.meta.env.DEV) console.warn(`BrandLogo: ${brand}/${name} not found`)
     return null
   }
+  const markup = light ? raw.replace(CANALIX_NAVY, 'currentColor') : raw
   return (
     <span
       className={`kol-brand-logo ${className}`.trim()}

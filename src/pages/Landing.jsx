@@ -65,8 +65,8 @@ export default function Landing() {
       <section className="kol-page kol-page__section">
         <p className="kol-page__section-label">02 — pick a door</p>
         <div className="kol-doors">
-          <Link to="/canalix" className="kol-door">
-            <BrandLogo brand="canalix" name="logomark" className="kol-door__mark" />
+          <Link to="/canalix" className="kol-door kol-door--inverse" style={{ background: 'rgba(0, 42, 94, 0.48)' }}>
+            <BrandLogo brand="canalix" name="logomark-mono" className="kol-door__mark" />
             <p className="kol-door__kicker">Master brand</p>
             <h3 className="kol-door__title">Canalix</h3>
             <p className="kol-door__sub">Identity · system · architecture</p>
@@ -76,7 +76,7 @@ export default function Landing() {
               ))}
             </div>
           </Link>
-          <Link to="/casedoc" className="kol-door kol-door--inverse" style={{ background: '#002A5E' }}>
+          <Link to="/casedoc" className="kol-door kol-door--inverse" style={{ background: 'rgba(0, 42, 94, 0.48)' }}>
             <BrandLogo brand="casedoc" name="logomark" className="kol-door__mark" />
             <p className="kol-door__kicker">Flagship product</p>
             <h3 className="kol-door__title">Casedoc</h3>

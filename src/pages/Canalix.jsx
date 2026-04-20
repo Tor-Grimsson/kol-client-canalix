@@ -94,7 +94,7 @@ export default function Canalix() {
       <section className="kol-page__hero" id="hero">
         <p className="kol-page__section-label">/ canalix</p>
         <div className="kol-hero__row">
-          <BrandLogo brand="canalix" name="logomark" className="kol-hero__mark" title="Canalix" />
+          <BrandLogo brand="canalix" name="logomark-light" className="kol-hero__mark" title="Canalix" />
           <div className="kol-hero__copy">
             <h1 className="kol-page__title">Canalix</h1>
             <p className="kol-page__lede">
@@ -157,7 +157,7 @@ export default function Canalix() {
         </div>
         <Carousel>
           {logoVariants.map((l) => (
-            <LogoCard key={l.name} brand="canalix" name={l.name} caption={l.caption} />
+            <LogoCard key={l.name} brand="canalix" name={l.name} caption={l.caption} light />
           ))}
         </Carousel>
       </section>

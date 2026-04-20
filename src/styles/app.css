@@ -136,6 +136,35 @@ html, body {
 
 .kol-section__head { max-width: 70ch; margin-bottom: 32px; }
 
+/* ───── Concept row (prose + figure) ───── */
+
+.kol-concept-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .kol-concept-row { grid-template-columns: 1fr; }
+}
+
+.kol-concept-row__figure {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: sticky;
+  top: 96px;
+}
+
+.kol-concept-row__figure img {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  display: block;
+}
+
 /* ───── Hero mark (brand-page heroes) ───── */
 
 .kol-hero__row { display: flex; align-items: center; gap: 48px; flex-wrap: wrap; }
@@ -309,10 +338,9 @@ html, body {
 .kol-swatch { display: flex; flex-direction: column; gap: 6px; }
 
 .kol-swatch__chip {
-  aspect-ratio: 3 / 2;
+  height: 96px;
   border-radius: 4px;
   border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-  min-height: 72px;
 }
 
 .kol-swatch__meta {
@@ -428,8 +456,8 @@ html, body {
   justify-content: center;
   border-radius: 4px;
   overflow: hidden;
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent);
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+  background: color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent);
+  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent);
   padding: 32px;
 }
 
