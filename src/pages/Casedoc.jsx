@@ -1,14 +1,17 @@
+import { Link } from 'react-router-dom'
 import Ramp from '../components/brand/Ramp'
 import Swatch from '../components/brand/Swatch'
 import TypeSample from '../components/brand/TypeSample'
 import AssetGrid from '../components/brand/AssetGrid'
 import AssetFigure from '../components/brand/AssetFigure'
-import BrandLogo from '../components/brand/BrandLogo'
-import LogoCard from '../components/brand/LogoCard'
-import Table from '../components/molecules/Table'
-import Carousel from '../components/molecules/Carousel'
+import BrandLogo from '../components/marks/BrandLogo'
+import BrandHero from '../components/cards/BrandHero'
+import PageSection from '../components/cards/PageSection'
+import LogoCarousel from '../components/cards/LogoCarousel'
+import TypeScaleSection from '../components/cards/TypeScaleSection'
+import ProsePreview from '../components/cards/ProsePreview'
+import Carousel from '../components/ui/Carousel'
 import usePageTitle from '../hooks/usePageTitle'
-import { Link } from 'react-router-dom'
 
 const CASEDOC_BACKDROP = '#002A5E'
 
@@ -42,13 +45,13 @@ const accentStops = [
 ]
 
 const logoVariants = [
-  { name: 'logomark',             caption: 'logomark' },
-  { name: 'logomark-1',           caption: 'logomark · contained' },
-  { name: 'lockup-vertical',      caption: 'lockup · vertical' },
-  { name: 'lockup-vertical-1',    caption: 'lockup · vertical alt' },
-  { name: 'lockup-horizontal',    caption: 'lockup · horizontal' },
-  { name: 'lockup-horizontal-1',  caption: 'lockup · horizontal alt' },
-  { name: 'wordmark',             caption: 'wordmark' },
+  { name: 'logomark',            caption: 'logomark' },
+  { name: 'logomark-1',          caption: 'logomark · contained' },
+  { name: 'lockup-vertical',     caption: 'lockup · vertical' },
+  { name: 'lockup-vertical-1',   caption: 'lockup · vertical alt' },
+  { name: 'lockup-horizontal',   caption: 'lockup · horizontal' },
+  { name: 'lockup-horizontal-1', caption: 'lockup · horizontal alt' },
+  { name: 'wordmark',            caption: 'wordmark' },
 ]
 
 const productUiFiles = [
@@ -67,6 +70,8 @@ const graphicsB = ['01', '02', '03', '04', '05']
 const graphicsC = ['01', '02']
 const brandedProduct = ['branded house', 'branded house-1', 'branded house-2', 'branded house-3', 'branded house-4']
 
+const slideFiles = Array.from({ length: 14 }, (_, i) => String(i + 1).padStart(2, '0'))
+
 const montserratScale = [
   { token: 'H1',      weight: 700, size: 56, lh: 64 },
   { token: 'H4',      weight: 500, size: 40, lh: 48 },
@@ -75,49 +80,27 @@ const montserratScale = [
   { token: 'p-small', weight: 400, size: 12, lh: 20 },
 ]
 
-const typeColumns = (family) => [
-  { header: 'Token',  accessor: 'token',  className: 'kol-table-cell-title' },
-  { header: 'Weight', accessor: 'weight' },
-  { header: 'Size / LH', accessor: 'size', render: (r) => `${r.size} / ${r.lh}` },
-  { header: 'Preview', accessor: 'preview', render: (r) => (
-    <span style={{ fontFamily: `"${family}", sans-serif`, fontWeight: r.weight, fontSize: `${Math.min(r.size, 20)}px`, lineHeight: 1.2 }}>
-      The quick brown fox
-    </span>
-  ), className: 'kol-table-cell-text', style: { whiteSpace: 'normal' } },
-]
-
 export default function Casedoc() {
   usePageTitle('Casedoc')
 
   return (
     <>
-      {/* 01 — Hero */}
-      <section className="kol-page__hero" id="hero">
-        <p className="kol-page__section-label">/ casedoc</p>
-        <div className="kol-hero__row">
+      <BrandHero
+        label="/ casedoc"
+        title="Casedoc"
+        lede={<>Flagship product. <em>Above as below — justice is a feather.</em> Bringing the power of data to justice.</>}
+        mark={
           <BrandLogo
             brand="casedoc"
             name="logomark"
-            className="kol-hero__mark kol-hero__mark--framed"
+            className="kol-hero-mark is-framed"
             style={{ background: CASEDOC_BACKDROP }}
             title="Casedoc"
           />
-          <div className="kol-hero__copy">
-            <h1 className="kol-page__title">Casedoc</h1>
-            <p className="kol-page__lede">
-              Flagship product. <em>Above as below — justice is a feather.</em>{' '}
-              Bringing the power of data to justice.
-            </p>
-          </div>
-        </div>
-      </section>
+        }
+      />
 
-      {/* 02 — Concept */}
-      <section id="concept" className="kol-page kol-page__section">
-        <div className="kol-section__head">
-          <p className="kol-page__section-label">02 — concept</p>
-          <h2 className="kol-page__section-title">The feather of Maat</h2>
-        </div>
+      <PageSection id="concept" label="02 — concept" title="The feather of Maat">
         <div className="kol-concept-row">
           <div className="kol-prose">
             <p><em>Above as below — justice is a feather.</em></p>
@@ -147,258 +130,157 @@ export default function Casedoc() {
               tool commercial life under a new brand.
             </p>
           </div>
-          <figure className="kol-concept-row__figure">
+          <figure className="kol-concept-row-figure">
             <img src="/brand/casedoc/maat.svg" alt="Maat — goddess of justice" />
           </figure>
         </div>
-      </section>
+      </PageSection>
 
-      {/* 03 — Logo */}
-      <section id="logo" className="kol-page kol-page__section">
-        <div className="kol-section__head">
-          <p className="kol-page__section-label">03 — logo</p>
-          <h2 className="kol-page__section-title">The mark</h2>
-          <p className="kol-page__section-body">
-            A stylized feather rendered as three stacked curved blades forming an
-            S-shape. Production SVGs ship white-fill — one navy backdrop across
-            all variants here for a clean read.
-          </p>
-        </div>
-        <Carousel>
-          {logoVariants.map((l) => (
-            <LogoCard
-              key={l.name}
-              brand="casedoc"
-              name={l.name}
-              caption={l.caption}
-              backdrop={CASEDOC_BACKDROP}
-            />
-          ))}
-        </Carousel>
-      </section>
+      <PageSection
+        id="logo"
+        label="03 — logo"
+        title="The mark"
+        body="A stylized feather rendered as three stacked curved blades forming an S-shape. Production SVGs ship white-fill — one navy backdrop across all variants here for a clean read."
+      >
+        <LogoCarousel brand="casedoc" logos={logoVariants} backdrop={CASEDOC_BACKDROP} />
+      </PageSection>
 
-      {/* 04 — Prose specimen */}
-      <section id="prose" className="kol-page kol-page__section">
-        <div className="kol-section__head">
-          <p className="kol-page__section-label">04 — prose</p>
-          <h2 className="kol-page__section-title">Rich-text specimen</h2>
-          <p className="kol-page__section-body">
-            Headings, paragraph, quote, indented, code, pullout — the blocks used
-            across marketing copy and long-form writing.
-          </p>
-        </div>
-        <div className="kol-prose">
-          <h1>H1 — Bringing the power of data to justice</h1>
-          <h2>H2 — Section title</h2>
-          <h3>H3 — Subsection</h3>
-          <h4>H4 — Block title</h4>
-          <p className="kol-prose__section-lede">
-            Section lede — a larger paragraph used to introduce a section and
-            establish tone before the body copy begins.
-          </p>
-          <p>
-            Paragraph. Casedoc offers judicial institutions a platform dedicated
-            to justice processes — transparent, impartial, and superior.
-          </p>
-          <blockquote>
-            <p>Above as below — justice is a feather.</p>
-          </blockquote>
-          <div className="kol-prose__indented">
-            <p>
-              Indented passage. Used for tangential copy, contextual notes, or
-              nested argument that supports the main line.
-            </p>
-          </div>
-          <pre><code>{`const flagship = 'Casedoc'
-const parent   = 'Canalix'`}</code></pre>
-          <p className="kol-prose__pullout">Pullout — transparent · impartial · superior</p>
-          <ul>
-            <li>Unordered list — item one</li>
-            <li>Item two</li>
-            <li>Item three</li>
-          </ul>
-          <ol>
-            <li>Ordered list — item one</li>
-            <li>Item two</li>
-            <li>Item three</li>
-          </ol>
-        </div>
-      </section>
+      <PageSection
+        id="prose"
+        label="04 — prose"
+        title="Rich-text specimen"
+        body="Headings, paragraph, quote, indented, code, pullout — the blocks used across marketing copy and long-form writing."
+      >
+        <ProsePreview
+          h1="Bringing the power of data to justice"
+          paragraph="Paragraph. Casedoc offers judicial institutions a platform dedicated to justice processes — transparent, impartial, and superior."
+          code={`const flagship = 'Casedoc'\nconst parent   = 'Canalix'`}
+          pullout="transparent · impartial · superior"
+        />
+      </PageSection>
 
-      {/* 05 — Montserrat */}
-      <section id="montserrat" className="kol-page kol-page__section">
-        <div className="kol-section__head">
-          <p className="kol-page__section-label">05 — montserrat</p>
-          <h2 className="kol-page__section-title">Montserrat</h2>
-          <p className="kol-page__section-body">
-            Same family as the parent brand. Casedoc adds a Paragraphs scale
-            (p-big 20/28, p 16/24, p-small 12/20).
-          </p>
-        </div>
-        <Table className="kol-table--simple" columns={typeColumns('Montserrat')} rows={montserratScale} />
-        <div style={{ marginTop: 48 }}>
-          <TypeSample label="Montserrat · 700 · 56/64 · H1" family="Montserrat" weight={700} size={56} lineHeight={64}>
-            We bring the power of data to justice.
-          </TypeSample>
-          <TypeSample label="Montserrat · 400 · 20/28 · p-big" family="Montserrat" weight={400} size={20} lineHeight={28}>
-            Casedoc offers judicial institutions a platform dedicated to justice
-            processes — transparent, impartial, and superior.
-          </TypeSample>
-          <TypeSample label="Montserrat · 400 · 16/24 · p" family="Montserrat" weight={400} size={16} lineHeight={24}>
-            Centralised evidence, data monitoring, privilege structure, people /
-            role / location management.
-          </TypeSample>
-        </div>
-      </section>
+      <TypeScaleSection
+        id="montserrat"
+        label="05 — montserrat"
+        title="Montserrat"
+        body="Same family as the parent brand. Casedoc adds a Paragraphs scale (p-big 20/28, p 16/24, p-small 12/20)."
+        family="Montserrat"
+        rows={montserratScale}
+      >
+        <TypeSample label="Montserrat · 700 · 56/64 · H1" family="Montserrat" weight={700} size={56} lineHeight={64}>
+          We bring the power of data to justice.
+        </TypeSample>
+        <TypeSample label="Montserrat · 400 · 20/28 · p-big" family="Montserrat" weight={400} size={20} lineHeight={28}>
+          Casedoc offers judicial institutions a platform dedicated to justice
+          processes — transparent, impartial, and superior.
+        </TypeSample>
+        <TypeSample label="Montserrat · 400 · 16/24 · p" family="Montserrat" weight={400} size={16} lineHeight={24}>
+          Centralised evidence, data monitoring, privilege structure, people /
+          role / location management.
+        </TypeSample>
+      </TypeScaleSection>
 
-      {/* 06 — Color */}
-      <section id="color" className="kol-page kol-page__section">
-        <div className="kol-section__head">
-          <p className="kol-page__section-label">06 — color</p>
-          <h2 className="kol-page__section-title">Product palette</h2>
-          <p className="kol-page__section-body">
-            The full Canalix design-system palette used by all products. Fourteen
-            ramps plus two curated palettes (Core + Accent). Brand anchor:{' '}
-            <strong>Hugvit Blue 500</strong> = <code>#00469C</code>.
-          </p>
-        </div>
-        {productRamps.map((r) => (
-          <Ramp key={r.name} name={r.name} stops={r.stops} />
-        ))}
+      <PageSection
+        id="color"
+        label="06 — color"
+        title="Product palette"
+        body={<>The full Canalix design-system palette used by all products. Fourteen ramps plus two curated palettes (Core + Accent). Brand anchor: <strong>Hugvit Blue 500</strong> = <code>#00469C</code>.</>}
+      >
+        {productRamps.map((r) => <Ramp key={r.name} name={r.name} stops={r.stops} />)}
 
-        <h3 style={{ fontSize: 24, fontWeight: 600, marginTop: 48, marginBottom: 16 }}>Core</h3>
-        <div className="kol-ramp__chips">
-          {coreStops.map(([name, hex]) => (
-            <Swatch key={name + hex} name={name} hex={hex} />
-          ))}
+        <h3 className="kol-heading-sm text-auto mt-12 mb-4">Core</h3>
+        <div className="kol-ramp-chips">
+          {coreStops.map(([name, hex]) => <Swatch key={name + hex} name={name} hex={hex} />)}
         </div>
 
-        <h3 style={{ fontSize: 24, fontWeight: 600, marginTop: 48, marginBottom: 16 }}>Accent</h3>
-        <div className="kol-ramp__chips">
-          {accentStops.map(([name, hex]) => (
-            <Swatch key={name + hex} name={name} hex={hex} />
-          ))}
+        <h3 className="kol-heading-sm text-auto mt-12 mb-4">Accent</h3>
+        <div className="kol-ramp-chips">
+          {accentStops.map(([name, hex]) => <Swatch key={name + hex} name={name} hex={hex} />)}
         </div>
-      </section>
+      </PageSection>
 
-      {/* 07 — Product UI */}
-      <section id="product-ui" className="kol-page kol-page__section">
-        <div className="kol-section__head">
-          <p className="kol-page__section-label">07 — product ui</p>
-          <h2 className="kol-page__section-title">UI abstractions</h2>
-          <p className="kol-page__section-body">
-            Stylized panels showing the product UI language — dark canvas, cyan
-            and yellow functional accents, data-dense layouts.
-          </p>
-        </div>
+      <PageSection
+        id="product-ui"
+        label="07 — product ui"
+        title="UI abstractions"
+        body="Stylized panels showing the product UI language — dark canvas, cyan and yellow functional accents, data-dense layouts."
+      >
         <AssetGrid cols={2}>
-          {productUiFiles.map((p) => (
-            <AssetFigure key={p.src} src={p.src} alt={p.caption} caption={p.caption} />
-          ))}
+          {productUiFiles.map((p) => <AssetFigure key={p.src} src={p.src} alt={p.caption} caption={p.caption} />)}
         </AssetGrid>
-      </section>
+      </PageSection>
 
-      {/* 08 — Devices */}
-      <section id="devices" className="kol-page kol-page__section">
-        <div className="kol-section__head">
-          <p className="kol-page__section-label">08 — devices</p>
-          <h2 className="kol-page__section-title">Devices</h2>
-          <p className="kol-page__section-body">
-            Casedoc on phone and desktop. Marketing mocks featuring the core
-            product strings.
-          </p>
-        </div>
+      <PageSection
+        id="devices"
+        label="08 — devices"
+        title="Devices"
+        body="Casedoc on phone and desktop. Marketing mocks featuring the core product strings."
+      >
         <AssetGrid cols={3}>
           {deviceFiles.map((f) => (
-            <AssetFigure
-              key={f}
-              src={`/brand/casedoc/devices/${f}.svg`}
-              alt={`Device mockup ${f}`}
-              caption={`device ${f}`}
-            />
+            <AssetFigure key={f} src={`/brand/casedoc/devices/${f}.svg`} alt={`Device mockup ${f}`} caption={`device ${f}`} />
           ))}
         </AssetGrid>
-      </section>
+      </PageSection>
 
-      {/* 09 — Graphics */}
-      <section id="graphics" className="kol-page kol-page__section">
-        <div className="kol-section__head">
-          <p className="kol-page__section-label">09 — graphics</p>
-          <h2 className="kol-page__section-title">Marketing graphics</h2>
-          <p className="kol-page__section-body">
-            Narrative and product-illustration graphics.
-          </p>
-        </div>
+      <PageSection
+        id="graphics"
+        label="09 — graphics"
+        title="Marketing graphics"
+        body="Narrative and product-illustration graphics."
+      >
         <AssetGrid cols={2}>
           {graphicsB.map((f) => (
-            <AssetFigure
-              key={`b-${f}`}
-              src={`/brand/casedoc/graphics/b/${f}.svg`}
-              alt={`Graphics B ${f}`}
-              caption={`graphics-b · ${f}`}
-            />
+            <AssetFigure key={`b-${f}`} src={`/brand/casedoc/graphics/b/${f}.svg`} alt={`Graphics B ${f}`} caption={`graphics-b · ${f}`} />
           ))}
           {graphicsC.map((f) => (
-            <AssetFigure
-              key={`c-${f}`}
-              src={`/brand/casedoc/graphics/c/${f}.svg`}
-              alt={`Graphics C ${f}`}
-              caption={`graphics-c · ${f}`}
-            />
+            <AssetFigure key={`c-${f}`} src={`/brand/casedoc/graphics/c/${f}.svg`} alt={`Graphics C ${f}`} caption={`graphics-c · ${f}`} />
           ))}
         </AssetGrid>
-      </section>
+      </PageSection>
 
-      {/* 10 — Branded product */}
-      <section id="branded-product" className="kol-page kol-page__section">
-        <div className="kol-section__head">
-          <p className="kol-page__section-label">10 — branded product</p>
-          <h2 className="kol-page__section-title">A product in the house</h2>
-          <p className="kol-page__section-body">
-            Casedoc sits inside the Canalix Branded House as its flagship product.
-            For the full house, see <Link to="/canalix#house">Canalix · architecture</Link>.
-          </p>
-        </div>
+      <PageSection
+        id="branded-product"
+        label="10 — branded product"
+        title="A product in the house"
+        body={<>Casedoc sits inside the Canalix Branded House as its flagship product. For the full house, see <Link to="/canalix#house">Canalix · architecture</Link>.</>}
+      >
         <AssetGrid cols={2}>
           {brandedProduct.map((f) => (
+            <AssetFigure key={f} src={`/brand/casedoc/branded-product/${f}.svg`} alt={f} caption={f} />
+          ))}
+        </AssetGrid>
+      </PageSection>
+
+      <PageSection
+        id="website"
+        label="11 — website"
+        title="casedoc.io"
+        body="Casedoc's marketing pages live inside the unified canalix.io site — product nested under master brand. Legacy SVG mocks still available below."
+      >
+        <div className="flex flex-col gap-2">
+          <Link to="/canalix/site/casedoc" className="kol-back-link kol-helper-xs uppercase tracking-widest text-fg-64 hover:text-auto">→ view live prototype</Link>
+          <Link to="/casedoc/websites" className="kol-back-link kol-helper-xs-2 uppercase tracking-widest text-fg-48 hover:text-fg-64">→ view SVG mocks (legacy)</Link>
+        </div>
+      </PageSection>
+
+      <PageSection
+        id="close"
+        label="12 — close"
+        title="Brand deck"
+        body="The complete Casedoc brand deck — concept, identity, typography, application. Fourteen slides, scroll through."
+      >
+        <Carousel className="is-slides">
+          {slideFiles.map((f) => (
             <AssetFigure
               key={f}
-              src={`/brand/casedoc/branded-product/${f}.svg`}
-              alt={f}
+              src={`/brand/casedoc/slides/${f}.svg`}
+              alt={`Casedoc slide ${f}`}
               caption={f}
             />
           ))}
-        </AssetGrid>
-      </section>
-
-      {/* 11 — Website link-out */}
-      <section id="website" className="kol-page kol-page__section">
-        <div className="kol-section__head">
-          <p className="kol-page__section-label">11 — website</p>
-          <h2 className="kol-page__section-title">casedoc.io</h2>
-          <p className="kol-page__section-body">
-            Full marketing site comps — they need real estate, so they live on
-            their own page.
-          </p>
-        </div>
-        <Link to="/casedoc/websites" className="kol-back-link">→ view website comps</Link>
-      </section>
-
-      {/* 12 — Close */}
-      <section id="close" className="kol-page kol-page__section">
-        <div className="kol-section__head">
-          <p className="kol-page__section-label">12 — close</p>
-          <h2 className="kol-page__section-title">Brand sheet</h2>
-          <p className="kol-page__section-body">
-            The complete Casedoc style sheet in one export.
-          </p>
-        </div>
-        <img
-          className="kol-figure__img"
-          src="/brand/casedoc/brand-sheet/sheet.svg"
-          alt="Casedoc brand sheet"
-        />
-      </section>
+        </Carousel>
+      </PageSection>
     </>
   )
 }

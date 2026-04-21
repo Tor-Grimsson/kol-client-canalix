@@ -1,0 +1,148 @@
+/**
+ * client.css — Canalix house brand system.
+ * Scoped under `.client`. Covers tokens, typography, base primitives.
+ * Do NOT use Kolkrabbi DS utilities here — this IS the brand rendering itself.
+ */
+
+.client {
+  /* tokens */
+  --c-font-display:     'Montserrat', sans-serif;
+  --c-font-serif:       'PP Hatton', serif;
+  --c-navy:             #142438;
+  --c-navy-deep:        #0E3655;
+  --c-cream:            #ECE8DE;
+  --c-cream-50:         #FAF9F5;
+  --c-yellow:           #DEB430;
+  --c-red:              #B5523F;
+  --c-hugvit-blue:      #00469C;
+  --c-hugvit-blue-deep: #002A5E;
+
+  --c-surface:          var(--c-cream-50);
+  --c-ink:              var(--c-navy);
+  --c-ink-muted:        color-mix(in srgb, var(--c-navy) 64%, transparent);
+  --c-accent:           var(--c-yellow);
+  --c-hairline:         color-mix(in srgb, var(--c-navy) 8%, transparent);
+
+  font-family: var(--c-font-display);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--c-ink);
+  background: var(--c-surface);
+}
+
+.client-casedoc {
+  --c-surface: #FFFFFF;
+  --c-accent:  var(--c-hugvit-blue);
+}
+
+/* Typography */
+.client h1, .client h2, .client h3, .client h4 {
+  font-family: var(--c-font-display);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.client h1 { font-size: clamp(40px, 6vw, 72px); letter-spacing: -0.02em; }
+.client h2 { font-size: clamp(32px, 4vw, 56px); }
+.client h3 { font-size: clamp(22px, 2.4vw, 32px); }
+.client h4 { font-size: 20px; }
+.client p  { margin: 0; line-height: 1.6; }
+
+.client .display {
+  font-family: var(--c-font-serif);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.client .eyebrow {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--c-accent);
+}
+
+.client .lede {
+  font-size: clamp(18px, 1.8vw, 22px);
+  line-height: 1.5;
+  color: var(--c-ink-muted);
+}
+
+/* Links */
+.client a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Buttons */
+.client .cta-primary,
+.client .cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 4px;
+  font-family: var(--c-font-display);
+  font-weight: 500;
+  font-size: 15px;
+  text-decoration: none;
+  transition: background 200ms ease, color 200ms ease, border-color 200ms ease;
+  cursor: pointer;
+}
+
+.client .cta-primary {
+  background: var(--c-navy);
+  color: var(--c-cream-50);
+  border: 1px solid var(--c-navy);
+}
+.client .cta-primary:hover {
+  background: var(--c-navy-deep);
+}
+
+.client-casedoc .cta-primary {
+  background: var(--c-hugvit-blue);
+  border-color: var(--c-hugvit-blue);
+}
+.client-casedoc .cta-primary:hover {
+  background: var(--c-hugvit-blue-deep);
+}
+
+.client .cta-ghost {
+  background: transparent;
+  color: var(--c-ink);
+  border: 1px solid color-mix(in srgb, var(--c-ink) 32%, transparent);
+}
+.client .cta-ghost:hover {
+  border-color: var(--c-ink);
+}
+
+/* Layout primitives */
+.client .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.client .container-narrow {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.client .section {
+  padding: 112px 0;
+}
+
+@media (max-width: 768px) {
+  .client .section { padding: 72px 0; }
+}
+
+/* Hairline */
+.client .hairline {
+  height: 1px;
+  background: var(--c-hairline);
+  border: 0;
+}

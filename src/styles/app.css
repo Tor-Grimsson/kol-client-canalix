@@ -1,140 +1,379 @@
 /**
- * kol-canalix — app styles
- * Site-local styles. Brand colors only live in content; chrome uses Kolkrabbi tokens.
+ * kol-canalix — site-local structural rules only.
+ *
+ * This file holds layout / positioning / sizing that the Kolkrabbi DS doesn't
+ * cover. Color, typography, borders, and state come from DS utilities
+ * (bg-fg-*, border-fg-*, text-fg-*, bg-surface-*, kol-display-*, kol-heading-*,
+ * kol-text-*, kol-helper-*) on JSX. No `__` BEM, no `color-mix()` for chrome.
+ *
  * Global rule: border-radius never exceeds 4px.
  */
 
-html, body {
+html,
+body {
   background: var(--kol-surface-primary);
   color: var(--kol-surface-on-primary);
 }
+
+:root {
+  --kol-topnav-h: 0px;
+  --kol-sidenav-w: 260px;
+  --kol-sidenav-w-collapsed: 56px;
+  --kol-container-max: 100%;
+}
+
+@media (min-width: 1024px) { :root { --kol-container-max: 1400px; } }
+@media (min-width: 1280px) { :root { --kol-container-max: 1600px; } }
+
+:root[data-sidenav="collapsed"] { --kol-sidenav-w: var(--kol-sidenav-w-collapsed); }
+
+/* ───── App shell ───── */
 
 .kol-app {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: var(--kol-surface-primary);
-  color: var(--kol-surface-on-primary);
 }
 
-.kol-app__main { flex: 1; }
+.kol-app-main {
+  flex: 1;
+  min-width: 0;
+}
 
-/* ───── TopNav ───── */
+/* ───── Brand doc layout (sidebar + content) ───── */
+
+.kol-brand-layout {
+  display: grid;
+  grid-template-columns: var(--kol-sidenav-w) minmax(0, 1fr);
+  transition: grid-template-columns 180ms ease;
+}
+
+.kol-brand-layout-main {
+  min-width: 0;
+}
+
+.kol-brand-layout-main .kol-page,
+.kol-brand-layout-main .kol-page-hero {
+  max-width: var(--kol-container-max);
+}
+
+@media (max-width: 1024px) {
+  .kol-brand-layout { grid-template-columns: 1fr; }
+  .kol-sidenav { display: none; }
+}
+
+/* ───── TopNav (home only — fixed, smart hide-on-scroll) ───── */
 
 .kol-topnav {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: var(--kol-z-nav, 1000);
+  left: 0;
+  right: 0;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 32px;
-  background: color-mix(in srgb, var(--kol-surface-primary) 88%, transparent);
-  backdrop-filter: saturate(140%) blur(8px);
-  border-bottom: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-  font-family: var(--kol-font-family-mono, monospace);
-  font-size: 13px;
-  letter-spacing: 0.03em;
+  padding: 16px clamp(24px, 4vw, 64px);
+  background: color-mix(in srgb, #0A1420 82%, transparent);
+  backdrop-filter: saturate(150%) blur(10px);
+  -webkit-backdrop-filter: saturate(150%) blur(10px);
+  border-bottom: 1px solid color-mix(in srgb, #FAF9F5 6%, transparent);
+  transform: translateY(0);
+  transition: transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-@media (max-width: 480px) {
-  .kol-topnav { padding: 12px 16px; font-size: 12px; }
-  .kol-topnav__links { gap: 16px; }
+.kol-topnav.is-hidden {
+  transform: translateY(-100%);
 }
 
-.kol-topnav__brand {
-  text-transform: uppercase;
-  text-decoration: none;
+.kol-topnav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   color: var(--kol-surface-on-primary);
-  letter-spacing: 0.06em;
-}
-
-.kol-topnav__links { display: flex; gap: 24px; }
-
-.kol-topnav__link {
-  text-transform: uppercase;
   text-decoration: none;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 64%, transparent);
-  transition: color var(--kol-transition-base, 150ms ease);
 }
 
-.kol-topnav__link:hover,
-.kol-topnav__link.is-active { color: var(--kol-surface-on-primary); }
+.kol-topnav-mark {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  color: #DEB430;
+}
+
+.kol-topnav-mark .kol-brand-logo,
+.kol-topnav-mark svg { width: 100%; height: 100%; display: block; }
+
+.kol-topnav-wordmark {
+  font-family: var(--kol-font-family-mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--kol-surface-on-primary) 80%, transparent);
+}
+
+.kol-topnav-links {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+.kol-topnav-link {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  transition: color 150ms ease;
+}
+
+@media (max-width: 768px) {
+  .kol-topnav { padding: 14px 20px; }
+  .kol-topnav-links { gap: 14px; }
+  .kol-topnav-wordmark { display: none; }
+}
+
+/* ───── SideNav ───── */
+
+.kol-sidenav {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100dvh;
+  overflow-y: auto;
+  padding: 16px 0 48px 0;
+  scrollbar-width: thin;
+  display: flex;
+  flex-direction: column;
+}
+
+.kol-sidenav-head {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 12px 8px;
+}
+
+.kol-sidenav-toggle {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  transition: color 150ms ease;
+}
+
+.kol-sidenav-toggle:hover { color: var(--kol-surface-on-primary); }
+
+/* Global hops — replaces TopNav */
+.kol-sidenav-hops {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-bottom: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+  padding-bottom: 16px;
+}
+
+.kol-sidenav-hop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 40px 8px 24px;
+  text-decoration: none;
+  color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: color 150ms ease, background 150ms ease;
+  position: relative;
+}
+
+.kol-sidenav-hop:hover {
+  color: color-mix(in srgb, var(--kol-surface-on-primary) 80%, transparent);
+}
+
+.kol-sidenav-hop.is-active {
+  color: var(--kol-surface-on-primary);
+}
+
+.kol-sidenav-hop.is-active::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--kol-accent-primary);
+}
+
+.kol-sidenav-hop-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: color-mix(in srgb, var(--kol-surface-on-primary) 64%, transparent);
+  flex-shrink: 0;
+  transition: color 150ms ease;
+}
+
+.kol-sidenav-hop:hover .kol-sidenav-hop-icon,
+.kol-sidenav-hop.is-active .kol-sidenav-hop-icon {
+  color: var(--kol-surface-on-primary);
+}
+
+.kol-sidenav-hop-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.kol-sidenav-body {
+  padding: 8px 24px 0 40px;
+  flex: 1;
+}
+
+.kol-sidenav-section {
+  margin-bottom: 32px;
+}
+
+.kol-sidenav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.kol-sidenav-group {
+  padding: 16px 0 6px;
+  margin-top: 8px;
+}
+
+.kol-sidenav-group:first-child { padding-top: 4px; margin-top: 0; }
+
+.kol-sidenav-link {
+  display: block;
+  position: relative;
+  padding: 6px 0 6px 16px;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.kol-sidenav-link.is-active::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--kol-accent-primary);
+}
+
+/* ───── SideNav collapsed (rail mode) ───── */
+
+.kol-sidenav.is-collapsed .kol-sidenav-hops {
+  padding: 0 0 16px;
+  margin-bottom: 16px;
+}
+
+.kol-sidenav.is-collapsed .kol-sidenav-hop {
+  padding: 8px 0;
+  justify-content: center;
+  gap: 0;
+}
+
+.kol-sidenav.is-collapsed .kol-sidenav-hop-label {
+  display: none;
+}
+
+.kol-sidenav.is-collapsed .kol-sidenav-hop.is-active::after {
+  right: 6px;
+  width: 4px;
+  height: 4px;
+}
+
+.kol-sidenav.is-collapsed .kol-sidenav-body {
+  display: none;
+}
 
 /* ───── Page scaffold ───── */
 
 .kol-page {
-  max-width: 1440px;
+  max-width: var(--kol-container-max);
   margin: 0 auto;
   padding: 64px 32px;
 }
 
-@media (max-width: 480px) { .kol-page { padding: 48px 16px; } }
-
-.kol-page__hero {
+.kol-page-hero {
   min-height: 72dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   padding: 48px 32px;
-  max-width: 1440px;
+  max-width: var(--kol-container-max);
   margin: 0 auto;
 }
 
 @media (max-width: 480px) {
-  .kol-page__hero { padding: 0 16px; min-height: calc(100dvh - 64px); }
+  .kol-page { padding: 48px 16px; }
+  .kol-page-hero { padding: 0 16px; min-height: calc(100dvh - 64px); }
 }
 
-.kol-page__title {
-  font-size: clamp(48px, 8vw, 112px);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  margin: 0 0 24px;
-}
-
-.kol-page__lede {
-  font-size: clamp(16px, 1.4vw, 20px);
-  line-height: 1.5;
-  max-width: 60ch;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 64%, transparent);
-  margin: 0;
-}
-
-.kol-page__section {
+.kol-page-section {
   padding: 64px 0;
-  border-top: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
   scroll-margin-top: 72px;
 }
 
-@media (max-width: 480px) { .kol-page__section { padding: 48px 0; } }
-
-.kol-page__section-label {
-  font-family: var(--kol-font-family-mono, monospace);
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
-  margin: 0 0 16px;
+@media (max-width: 480px) {
+  .kol-page-section { padding: 48px 0; }
 }
 
-.kol-page__section-title {
-  font-size: clamp(32px, 4vw, 56px);
-  font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.015em;
-  margin: 0 0 24px;
+.kol-page--fullbleed {
+  max-width: none !important;
+  min-height: 100vh;
+  padding: 64px clamp(24px, 4vw, 64px);
+  display: flex;
+  flex-direction: column;
 }
 
-.kol-page__section-body {
-  font-size: 16px;
-  line-height: 1.6;
+.kol-page--fullbleed > .kol-section-head--wide {
+  max-width: 960px;
+  margin-bottom: 32px;
+}
+
+.kol-section-head {
   max-width: 70ch;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 80%, transparent);
+  margin-bottom: 32px;
 }
 
-.kol-section__head { max-width: 70ch; margin-bottom: 32px; }
+/* ───── Brand-page hero row ───── */
+
+.kol-hero-row {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.kol-hero-mark {
+  width: clamp(96px, 14vw, 192px);
+  height: auto;
+  flex-shrink: 0;
+}
+
+.kol-hero-mark.is-framed {
+  padding: 16px;
+  border-radius: 4px;
+}
+
+.kol-hero-copy {
+  flex: 1;
+  min-width: 280px;
+}
 
 /* ───── Concept row (prose + figure) ───── */
 
@@ -145,11 +384,7 @@ html, body {
   align-items: start;
 }
 
-@media (max-width: 768px) {
-  .kol-concept-row { grid-template-columns: 1fr; }
-}
-
-.kol-concept-row__figure {
+.kol-concept-row-figure {
   margin: 0;
   display: flex;
   justify-content: center;
@@ -158,310 +393,68 @@ html, body {
   top: 96px;
 }
 
-.kol-concept-row__figure img {
+.kol-concept-row-figure img {
   width: 100%;
   max-width: 480px;
   height: auto;
   display: block;
 }
 
-/* ───── Hero mark (brand-page heroes) ───── */
-
-.kol-hero__row { display: flex; align-items: center; gap: 48px; flex-wrap: wrap; }
-
-.kol-hero__mark {
-  width: clamp(96px, 14vw, 192px);
-  height: auto;
-  flex-shrink: 0;
+@media (max-width: 768px) {
+  .kol-concept-row { grid-template-columns: 1fr; }
 }
-
-.kol-hero__mark--framed {
-  padding: 16px;
-  border-radius: 4px;
-}
-
-.kol-hero__copy { flex: 1; min-width: 280px; }
-
-/* ───── Home — fullscreen mood hero ───── */
-
-.kol-home-hero {
-  position: relative;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  height: calc(100dvh - 56px);
-  overflow: hidden;
-  background: var(--kol-surface-primary);
-}
-
-.kol-home-hero__bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-}
-
-.kol-home-hero__veil {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg,
-    color-mix(in srgb, #000 24%, transparent) 0%,
-    color-mix(in srgb, #000 8%,  transparent) 40%,
-    color-mix(in srgb, #000 48%, transparent) 100%);
-}
-
-.kol-home-hero__stage {
-  position: relative;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 24px;
-  padding: 24px;
-  color: var(--kol-surface-on-primary);
-  text-align: center;
-}
-
-.kol-home-hero__mark {
-  width: clamp(112px, 18vw, 240px);
-  height: auto;
-  opacity: 0;
-  transform: translateY(16px);
-}
-
-.kol-home-hero__mark .kol-brand-logo { width: 100%; }
-.kol-home-hero__mark svg { width: 100%; height: auto; display: block; }
-
-.kol-home-hero__title {
-  font-size: clamp(56px, 10vw, 160px);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  margin: 0;
-  color: var(--kol-surface-on-primary);
-  opacity: 0;
-  transform: translateY(16px);
-}
-
-.kol-home-hero__lede {
-  max-width: 52ch;
-  font-size: clamp(14px, 1.2vw, 18px);
-  line-height: 1.5;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 80%, transparent);
-  opacity: 0;
-  transform: translateY(16px);
-}
-
-.kol-home-hero__mark { color: var(--kol-surface-on-primary); }
-
-.kol-home-hero__scroll {
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--kol-font-family-mono, monospace);
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
-  opacity: 0;
-}
-
-/* ───── Landing — two doors ───── */
-
-.kol-doors {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  padding: 96px 0;
-}
-
-@media (max-width: 768px) { .kol-doors { grid-template-columns: 1fr; } }
-
-.kol-door {
-  display: block;
-  padding: 48px;
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-  border-radius: 4px;
-  text-decoration: none;
-  color: inherit;
-  transition: transform 200ms ease, border-color 200ms ease;
-}
-
-.kol-door:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--kol-surface-on-primary) 32%, transparent);
-}
-
-.kol-door__kicker {
-  font-family: var(--kol-font-family-mono, monospace);
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
-  margin: 0 0 12px;
-}
-
-.kol-door__title {
-  font-size: 48px;
-  font-weight: 600;
-  line-height: 1;
-  margin: 0 0 8px;
-}
-
-.kol-door__sub {
-  font-size: 14px;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 64%, transparent);
-  margin: 0;
-}
-
-.kol-door__mark { width: 64px; height: 64px; margin-bottom: 32px; display: block; }
-
-.kol-door__palette {
-  display: flex;
-  height: 16px;
-  margin-top: 32px;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.kol-door__palette > span { flex: 1; display: block; }
-
-.kol-door--inverse { border-color: transparent; }
-
-/* ═════ Brand primitives ═════ */
-
-/* ───── Swatch ───── */
-
-.kol-swatch { display: flex; flex-direction: column; gap: 6px; }
-
-.kol-swatch__chip {
-  height: 96px;
-  border-radius: 4px;
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-}
-
-.kol-swatch__meta {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-family: var(--kol-font-family-mono, monospace);
-  font-size: 10px;
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-  color: var(--kol-surface-on-primary);
-}
-
-.kol-swatch__meta > span:first-child { opacity: 0.55; }
-.kol-swatch__meta > span:last-child  { opacity: 0.85; font-weight: 600; }
-
-/* ───── Ramp ───── */
-
-.kol-ramp { margin: 0 0 32px; }
-
-.kol-ramp__name {
-  font-family: var(--kol-font-family-mono, monospace);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 64%, transparent);
-  margin: 0 0 8px;
-}
-
-.kol-ramp__chips {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 4px;
-}
-
-/* ───── Type sample ───── */
-
-.kol-type-sample {
-  padding: 24px 0;
-  border-top: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-}
-
-.kol-type-sample:first-child { border-top: none; }
-
-.kol-type-sample__label {
-  font-family: var(--kol-font-family-mono, monospace);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
-  margin: 0 0 12px;
-}
-
-.kol-type-sample__body { margin: 0; color: var(--kol-surface-on-primary); }
 
 /* ───── Asset figure / grid ───── */
 
 .kol-asset-figure { margin: 0; }
 
-.kol-asset-figure__frame {
+.kol-asset-figure-frame {
   border-radius: 4px;
   overflow: hidden;
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent);
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
 }
 
-.kol-asset-figure--dark .kol-asset-figure__frame {
-  background: var(--kol-surface-inverse);
-  border-color: transparent;
+.kol-asset-figure-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
-.kol-asset-figure--flush .kol-asset-figure__frame {
-  background: transparent;
-  border: none;
-  border-radius: 0;
+.kol-asset-grid {
+  display: grid;
+  gap: 16px;
+  margin: 32px 0 0;
 }
 
-.kol-asset-figure__frame img { width: 100%; height: auto; display: block; }
-
-.kol-asset-figure__caption {
-  font-family: var(--kol-font-family-mono, monospace);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
-  margin: 8px 0 0;
-}
-
-.kol-asset-grid { display: grid; gap: 16px; margin: 32px 0 0; }
-.kol-asset-grid--2col { grid-template-columns: repeat(2, 1fr); }
-.kol-asset-grid--3col { grid-template-columns: repeat(3, 1fr); }
-.kol-asset-grid--4col { grid-template-columns: repeat(4, 1fr); }
+.kol-asset-grid-2col { grid-template-columns: repeat(2, 1fr); }
+.kol-asset-grid-3col { grid-template-columns: repeat(3, 1fr); }
+.kol-asset-grid-4col { grid-template-columns: repeat(4, 1fr); }
 
 @media (max-width: 768px) {
-  .kol-asset-grid--3col,
-  .kol-asset-grid--4col { grid-template-columns: repeat(2, 1fr); }
+  .kol-asset-grid-3col,
+  .kol-asset-grid-4col { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 480px) {
-  .kol-asset-grid--2col,
-  .kol-asset-grid--3col,
-  .kol-asset-grid--4col { grid-template-columns: 1fr; }
+  .kol-asset-grid-2col,
+  .kol-asset-grid-3col,
+  .kol-asset-grid-4col { grid-template-columns: 1fr; }
 }
 
 /* ───── Logo card ───── */
 
 .kol-logo-card { margin: 0; }
 
-.kol-logo-card__frame {
+.kol-logo-card-frame {
   aspect-ratio: 4 / 3;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 4px;
   overflow: hidden;
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent);
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent);
   padding: 32px;
 }
 
-.kol-logo-card__frame .kol-brand-logo {
+.kol-logo-card-frame .kol-brand-logo {
   display: inline-flex;
   width: 100%;
   max-width: 280px;
@@ -471,29 +464,27 @@ html, body {
   justify-content: center;
 }
 
-.kol-logo-card__frame svg { width: 100%; height: 100%; max-height: 160px; }
-
-.kol-logo-card__caption {
-  font-family: var(--kol-font-family-mono, monospace);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
-  margin: 8px 0 0;
+.kol-logo-card-frame svg {
+  width: 100%;
+  height: 100%;
+  max-height: 160px;
 }
 
 /* ───── Mood tile (image + overlay logomark) ───── */
 
-.kol-mood-tile { margin: 0; position: relative; }
+.kol-mood-tile {
+  margin: 0;
+  position: relative;
+}
 
-.kol-mood-tile__frame {
+.kol-mood-tile-frame {
   position: relative;
   border-radius: 4px;
   overflow: hidden;
   aspect-ratio: 4 / 3;
 }
 
-.kol-mood-tile__frame img {
+.kol-mood-tile-frame img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -501,7 +492,7 @@ html, body {
   object-fit: cover;
 }
 
-.kol-mood-tile__overlay {
+.kol-mood-tile-overlay {
   position: absolute;
   inset: 0;
   display: flex;
@@ -510,28 +501,81 @@ html, body {
   pointer-events: none;
 }
 
-.kol-mood-tile__overlay .kol-brand-logo {
+.kol-mood-tile-overlay .kol-brand-logo {
   width: 32%;
   max-width: 180px;
   display: inline-flex;
 }
 
-.kol-mood-tile__overlay svg { width: 100%; height: auto; }
-
-.kol-mood-tile__caption {
-  font-family: var(--kol-font-family-mono, monospace);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
-  margin: 8px 0 0;
+.kol-mood-tile-overlay svg {
+  width: 100%;
+  height: auto;
 }
 
-/* ───── Rich-text prose specimen ───── */
+/* ───── Mark grid (canalix product icons) ───── */
 
-.kol-prose {
-  max-width: 72ch;
+.kol-mark-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
 }
+
+.kol-mark-tile { margin: 0; }
+
+.kol-mark-tile-frame {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 32px;
+}
+
+.kol-mark-tile-frame .kol-brand-logo { width: 72%; }
+.kol-mark-tile-frame svg { width: 100%; height: auto; }
+
+/* ───── Swatch / Ramp (color specimens) ───── */
+
+.kol-swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.kol-swatch-chip {
+  height: 96px;
+  border-radius: 4px;
+}
+
+.kol-swatch-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kol-ramp { margin: 0 0 32px; }
+
+.kol-ramp-chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 4px;
+}
+
+/* ───── Type sample (brand type specimen) ───── */
+
+.kol-type-sample {
+  padding: 24px 0;
+}
+
+.kol-type-sample + .kol-type-sample {
+  border-top: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+}
+
+.kol-type-sample-body { margin: 0; }
+
+/* ───── Prose (rich-text specimen container) ───── */
+
+.kol-prose { max-width: 72ch; }
 
 .kol-prose h1 { font-size: 56px; font-weight: 600; line-height: 1.05; letter-spacing: -0.015em; margin: 48px 0 16px; }
 .kol-prose h2 { font-size: 40px; font-weight: 600; line-height: 1.1;  letter-spacing: -0.01em;  margin: 40px 0 12px; }
@@ -539,7 +583,8 @@ html, body {
 .kol-prose h4 { font-size: 18px; font-weight: 600; line-height: 1.3;  margin: 24px 0 8px; }
 .kol-prose p  { margin: 0 0 16px; line-height: 1.6; }
 .kol-prose p + p { margin-top: 16px; }
-.kol-prose ul, .kol-prose ol { padding-left: 20px; margin: 16px 0; }
+.kol-prose ul,
+.kol-prose ol { padding-left: 20px; margin: 16px 0; }
 .kol-prose li { margin: 6px 0; line-height: 1.5; }
 
 .kol-prose blockquote {
@@ -547,16 +592,16 @@ html, body {
   padding: 16px 24px;
   border-left: 2px solid color-mix(in srgb, var(--kol-surface-on-primary) 32%, transparent);
   font-style: italic;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 80%, transparent);
 }
 
-.kol-prose .kol-prose__indented { padding-left: 32px; border-left: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 16%, transparent); }
+.kol-prose-indented {
+  padding-left: 32px;
+  border-left: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 16%, transparent);
+}
 
 .kol-prose pre {
   margin: 16px 0;
   padding: 16px;
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent);
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
   border-radius: 4px;
   font-family: var(--kol-font-family-mono, monospace);
   font-size: 13px;
@@ -568,36 +613,35 @@ html, body {
   font-family: var(--kol-font-family-mono, monospace);
   font-size: 0.9em;
   padding: 1px 4px;
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
   border-radius: 3px;
 }
 
-.kol-prose pre code { padding: 0; background: none; border-radius: 0; }
+.kol-prose pre code {
+  padding: 0;
+  background: none;
+  border-radius: 0;
+}
 
-.kol-prose__pullout {
-  font-family: var(--kol-font-family-mono, monospace);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 64%, transparent);
-  border-top: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+.kol-prose-pullout {
   padding: 16px 0;
   margin: 32px 0;
+  border-top: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
 }
 
-.kol-prose__section-lede {
-  font-size: 20px;
-  line-height: 1.5;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 80%, transparent);
-  margin: 0 0 24px;
+/* ───── Figure (plain image wrapper) ───── */
+
+.kol-figure {
+  width: 100%;
+  max-width: 1200px;
+  margin: 32px 0 0;
 }
 
-/* ───── Figure flush helper ───── */
-
-.kol-figure { width: 100%; max-width: 1200px; margin: 32px 0 0; }
-.kol-figure--flush { margin: 32px 0 0; }
-.kol-figure__img { width: 100%; height: auto; display: block; }
+.kol-figure-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 
 /* ───── Fullscreen overlay ───── */
 
@@ -612,9 +656,9 @@ html, body {
   padding: 48px 24px;
 }
 
-.kol-overlay__sheet {
+.kol-overlay-sheet {
   position: relative;
-  max-width: 1600px;
+  max-width: var(--kol-container-max);
   max-height: 100%;
   width: 100%;
   display: flex;
@@ -622,85 +666,638 @@ html, body {
   justify-content: center;
 }
 
-.kol-overlay__sheet img {
+.kol-overlay-sheet img {
   max-width: 100%;
   max-height: 90vh;
   object-fit: contain;
   display: block;
 }
 
-.kol-overlay__close {
+.kol-overlay-close {
   position: absolute;
   top: -48px;
   right: 0;
   width: 40px;
   height: 40px;
   border-radius: 4px;
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-inverse) 32%, transparent);
   background: transparent;
+  border: 1px solid color-mix(in srgb, var(--kol-surface-on-inverse) 32%, transparent);
   color: var(--kol-surface-on-inverse);
+  cursor: pointer;
   font-size: 24px;
   line-height: 1;
-  cursor: pointer;
 }
 
-.kol-overlay__close:hover { background: color-mix(in srgb, var(--kol-surface-on-inverse) 8%, transparent); }
+.kol-overlay-close:hover {
+  background: color-mix(in srgb, var(--kol-surface-on-inverse) 8%, transparent);
+}
 
 /* ───── Carousel (embla) ───── */
 
 .kol-embla { overflow: hidden; }
-.kol-embla__viewport { overflow: hidden; }
-.kol-embla__container { display: flex; gap: 16px; }
-.kol-embla__slide {
+.kol-embla-viewport { overflow: hidden; }
+.kol-embla-container {
+  display: flex;
+  gap: 16px;
+}
+.kol-embla-slide {
   flex: 0 0 auto;
   width: clamp(260px, 32vw, 420px);
 }
 
-.kol-embla__controls {
+.kol-embla.is-slides .kol-embla-slide {
+  width: clamp(320px, 72vw, 900px);
+}
+
+.kol-embla-controls {
   display: flex;
   gap: 8px;
   justify-content: flex-end;
   margin-top: 16px;
 }
 
-.kol-embla__btn {
+.kol-embla-btn {
   width: 40px;
   height: 40px;
   border-radius: 4px;
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 16%, transparent);
   background: transparent;
-  color: var(--kol-surface-on-primary);
   cursor: pointer;
   font-size: 16px;
 }
 
-.kol-embla__btn:disabled { opacity: 0.3; cursor: not-allowed; }
-.kol-embla__btn:hover:not(:disabled) { border-color: color-mix(in srgb, var(--kol-surface-on-primary) 32%, transparent); }
+.kol-embla-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ───── Fullscreen gallery tile ───── */
+
+.kol-fs-tile { cursor: zoom-in; }
 
 /* ───── Website preview ───── */
 
-.kol-website-preview { margin-bottom: 32px; cursor: zoom-in; }
-.kol-website-preview .kol-asset-figure__frame { background: color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent); }
-.kol-website-preview .kol-asset-figure__caption { text-align: center; }
+.kol-website-preview { margin-bottom: 32px; }
+.kol-website-preview .kol-asset-figure-frame {
+  background: color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent);
+}
 
-/* ───── Back link ───── */
+/* ───── Brand logo base ───── */
 
-.kol-back-link {
+.kol-brand-logo {
+  display: inline-flex;
+  line-height: 0;
+}
+
+.kol-brand-logo svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ───── Typography spec card (meta panel + live sample) ───── */
+
+.kol-type-spec {
+  padding: 48px 0;
+  position: relative;
+}
+
+.kol-type-spec-label {
+  position: absolute;
+  top: 16px;
+  left: 0;
+}
+
+.kol-type-spec-row {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+  padding-top: 24px;
+}
+
+@media (max-width: 1024px) {
+  .kol-type-spec-row { grid-template-columns: 1fr; gap: 24px; }
+}
+
+.kol-type-spec-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.kol-type-spec-meta-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent);
+}
+
+.kol-type-spec-meta-row:last-child { border-bottom: none; }
+
+.kol-type-spec-sample { min-width: 0; }
+.kol-type-spec-sample p { margin: 0 0 16px; }
+.kol-type-spec-sample p:last-child { margin-bottom: 0; }
+
+/* ───── Exit preview (floating × button on client surfaces) ───── */
+
+.kol-exit-preview {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9999;
+  display: inline-flex;
+  align-items: center;
+  height: 48px;
+  background: var(--kol-surface-inverse);
+  color: var(--kol-surface-on-inverse);
+  border: 1px solid color-mix(in srgb, var(--kol-surface-on-inverse) 16%, transparent);
+  border-radius: 4px;
+  overflow: hidden;
   font-family: var(--kol-font-family-mono, monospace);
   font-size: 12px;
-  text-transform: uppercase;
+  font-weight: 500;
   letter-spacing: 0.12em;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 64%, transparent);
+  text-transform: uppercase;
   text-decoration: none;
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease;
+}
+
+.kol-exit-preview:hover {
+  border-color: color-mix(in srgb, var(--kol-surface-on-inverse) 32%, transparent);
+}
+
+.kol-exit-preview-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.kol-exit-preview-label {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 220ms ease, padding-right 220ms ease;
+  padding-right: 0;
+}
+
+.kol-exit-preview:hover .kol-exit-preview-label {
+  max-width: 120px;
+  padding-right: 20px;
+}
+
+/* ───── Portal footer (simple — Kolkrabbi wordmark + year) ───── */
+
+.kol-portal-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 48px 24px;
+  border-top: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+}
+
+.kol-portal-footer p { margin: 0; }
+
+.kol-portal-footer a { text-decoration: none; transition: opacity 150ms ease; }
+.kol-portal-footer a:hover { opacity: 0.8; }
+
+/* ───── Back link (structural only; use kol-helper-xs uppercase tracking-widest text-fg-64 on JSX) ───── */
+
+.kol-back-link {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 32px;
+  text-decoration: none;
 }
 
-.kol-back-link:hover { color: var(--kol-surface-on-primary); }
+/* ───── Code block (rich-text + prose) ───── */
 
-/* ───── Brand-logo base ───── */
+.kol-codeblock {
+  position: relative;
+  margin: 16px 0;
+  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 16%, transparent);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent);
+  overflow: hidden;
+}
 
-.kol-brand-logo { display: inline-flex; line-height: 0; }
-.kol-brand-logo svg { display: block; width: 100%; height: auto; }
+.kol-codeblock pre {
+  margin: 0;
+  padding: 20px 24px 20px 24px;
+  font-family: var(--kol-font-family-mono, monospace);
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-x: auto;
+  color: var(--kol-surface-on-primary);
+}
+
+.kol-codeblock pre code {
+  font-family: inherit;
+  padding: 0;
+  background: none;
+  border: none;
+  color: inherit;
+}
+
+.kol-codeblock-lang {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font-family: var(--kol-font-family-mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--kol-surface-on-primary) 40%, transparent);
+}
+
+.kol-codeblock-lang + pre {
+  padding-top: 32px;
+}
+
+.kol-codeblock-copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: color-mix(in srgb, var(--kol-surface-primary) 80%, transparent);
+  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 16%, transparent);
+  border-radius: 3px;
+  color: color-mix(in srgb, var(--kol-surface-on-primary) 64%, transparent);
+  cursor: pointer;
+  font-family: var(--kol-font-family-mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+
+.kol-codeblock-copy:hover {
+  color: var(--kol-surface-on-primary);
+  border-color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
+}
+
+.kol-codeblock-copy-label { line-height: 1; }
+
+/* ───── Foundations · anatomy spectrum ───── */
+
+.kol-anatomy-spectrum {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 2px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+}
+
+.kol-anatomy-chip {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 140px;
+  padding: 12px;
+  transition: transform 180ms ease;
+}
+
+.kol-anatomy-chip:hover { transform: translateY(-2px); }
+
+.kol-anatomy-chip-head { display: flex; flex-direction: column; gap: 2px; }
+.kol-anatomy-chip-foot { display: flex; justify-content: space-between; align-items: center; }
+
+.kol-anatomy-strip {
+  display: flex;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+}
+
+.kol-anatomy-strip-cell {
+  flex: 1;
+  min-width: 0;
+  height: 88px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.kol-anatomy-brand-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-family: var(--kol-font-family-mono, monospace);
+  color: #FAFAFA;
+}
+
+.kol-anatomy-brand-dot[data-brand="canalix"] { background: #142438; color: #DEB430; }
+.kol-anatomy-brand-dot[data-brand="casedoc"] { background: #00469C; color: #FFFFFF; }
+
+.kol-anatomy-legend-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 14px;
+  border-radius: 2px;
+  font-size: 8px;
+  font-weight: 700;
+  font-family: var(--kol-font-family-mono, monospace);
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.kol-anatomy-legend-dot[data-brand="canalix"] { background: #142438; color: #DEB430; }
+.kol-anatomy-legend-dot[data-brand="casedoc"] { background: #00469C; color: #FFFFFF; }
+
+/* ───── Foundations · color tokens table ───── */
+
+.kol-color-table-wrap {
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+  overflow: hidden;
+}
+
+.kol-color-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.kol-color-table thead th {
+  text-align: left;
+  padding: 12px 16px;
+  font-family: var(--kol-font-family-mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
+  background: color-mix(in srgb, var(--kol-surface-on-primary) 3%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+}
+
+.kol-color-table tbody td {
+  padding: 12px 16px;
+  vertical-align: middle;
+  border-bottom: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent);
+}
+
+.kol-color-table tbody tr:last-child td { border-bottom: none; }
+
+.kol-color-table tbody tr:hover td {
+  background: color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent);
+}
+
+.kol-color-table-mono {
+  font-family: var(--kol-font-family-mono, monospace);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+/* ───── Foundations · combo lab ───── */
+
+.kol-combo-lab {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 24px;
+  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent);
+}
+
+.kol-combo-controls { margin-bottom: 24px; }
+
+.kol-combo-stage-wrap {
+  flex: 1;
+  margin-bottom: 24px;
+  padding: 32px;
+  background: color-mix(in srgb, var(--kol-surface-on-primary) 3%, transparent);
+  border-radius: 4px;
+  min-height: 440px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.kol-combo-stage-anim {
+  width: 100%;
+  max-width: 1100px;
+  animation: kol-combo-fade 260ms ease;
+  display: flex;
+  align-items: stretch;
+}
+
+.kol-combo-stage-anim > * { width: 100%; }
+
+/* In fullbleed mode, let the lab fill the section */
+.kol-page--fullbleed .kol-combo-lab { flex: 1; }
+.kol-page--fullbleed .kol-combo-stage-wrap { min-height: 520px; }
+
+@keyframes kol-combo-fade {
+  from { opacity: 0.2; transform: translateY(6px); }
+  to   { opacity: 1;   transform: none; }
+}
+
+.kol-combo-readout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px 32px;
+  padding-top: 16px;
+  border-top: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+}
+
+/* ───── Branded House builder ───── */
+
+.kol-bh-builder {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  grid-template-rows: 1fr;
+  gap: 32px;
+  min-height: 560px;
+}
+
+@media (max-width: 1024px) {
+  .kol-bh-builder { grid-template-columns: 1fr; }
+}
+
+.kol-bh-panel {
+  padding: 24px;
+  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent);
+  align-self: flex-start;
+}
+
+/* Controls — use DS ViewToggle for radios; simple DS-tokenized rules for rest */
+.kol-bh-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.kol-bh-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kol-bh-field-label { font-weight: 600; }
+
+.kol-bh-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  color: var(--kol-surface-on-primary);
+  background: color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent);
+  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 16%, transparent);
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.kol-bh-input::placeholder {
+  color: color-mix(in srgb, var(--kol-surface-on-primary) 32%, transparent);
+}
+
+.kol-bh-input:focus {
+  border-color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
+  background: color-mix(in srgb, var(--kol-surface-on-primary) 6%, transparent);
+}
+
+.kol-bh-copy {
+  margin-top: 8px;
+  padding: 12px 20px;
+  width: 100%;
+  background: color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+  color: var(--kol-surface-on-primary);
+  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 32%, transparent);
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+
+.kol-bh-copy:hover {
+  background: color-mix(in srgb, var(--kol-surface-on-primary) 12%, transparent);
+  border-color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
+}
+
+.kol-bh-copy.is-copied {
+  background: var(--kol-accent-primary, var(--kol-surface-on-primary));
+  color: var(--kol-surface-primary);
+  border-color: transparent;
+}
+
+.kol-bh-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.kol-bh-stage-inner {
+  flex: 1;
+  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+  border-radius: 4px;
+  padding: clamp(24px, 4vw, 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 420px;
+  overflow: auto;
+  position: relative;
+  background: repeating-linear-gradient(
+    45deg,
+    color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent),
+    color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent) 12px,
+    color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent) 12px,
+    color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent) 24px
+  );
+}
+
+.kol-bh-output {
+  margin: 0;
+  padding: 16px 20px;
+  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--kol-surface-on-primary) 3%, transparent);
+  font-family: var(--kol-font-family-mono, monospace);
+  font-size: 12px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--kol-surface-on-primary) 80%, transparent);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* Library grid */
+.kol-bh-lib-group {
+  margin-bottom: 40px;
+}
+
+.kol-bh-lib-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.kol-bh-lib-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  min-height: 120px;
+  transition: border-color 150ms ease, transform 150ms ease, background 150ms ease;
+}
+
+.kol-bh-lib-card:hover {
+  border-color: color-mix(in srgb, var(--kol-surface-on-primary) 32%, transparent);
+  background: color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent);
+  transform: translateY(-1px);
+}
+
+/* ───── Reveal utility ───── */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* ───── Hover text utilities (DS doesn't ship hover:text-fg-*; we add a minimal set) ───── */
+
+.hover\:text-auto:hover    { color: var(--kol-surface-on-primary); }
+.hover\:text-fg-48:hover   { color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent); }
+.hover\:text-fg-64:hover   { color: color-mix(in srgb, var(--kol-surface-on-primary) 64%, transparent); }
+.hover\:text-fg-80:hover   { color: color-mix(in srgb, var(--kol-surface-on-primary) 80%, transparent); }
+.hover\:text-fg-96:hover   { color: color-mix(in srgb, var(--kol-surface-on-primary) 96%, transparent); }
+
+.hover\:border-fg-32:hover { border-color: color-mix(in srgb, var(--kol-surface-on-primary) 32%, transparent); }
+.hover\:border-fg-48:hover { border-color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent); }

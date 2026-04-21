@@ -9,9 +9,13 @@ export default function TypeSample({
 }) {
   return (
     <div className="kol-type-sample">
-      {label && <p className="kol-type-sample__label">{label}</p>}
+      {label && (
+        <p className="kol-helper-xs-2 uppercase tracking-wider text-fg-48 m-0 mb-3">
+          {label}
+        </p>
+      )}
       <p
-        className="kol-type-sample__body"
+        className="kol-type-sample-body m-0 text-auto"
         style={{
           fontFamily: `"${family}", sans-serif`,
           fontWeight: weight,
