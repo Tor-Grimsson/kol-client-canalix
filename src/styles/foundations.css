@@ -1,0 +1,572 @@
+/**
+ * foundations.css — /foundations page specific styles.
+ *
+ * Color anatomy spectrum, color tokens table, and combo lab rules.
+ * Portal chrome (sidebar, topnav, page scaffold) stays in app.css.
+ */
+
+/* ───── Foundations · anatomy spectrum ───── */
+
+.kol-anatomy-spectrum {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 2px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--kol-fg-08);
+}
+
+.kol-anatomy-chip {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 140px;
+  padding: 12px;
+  transition: transform 180ms ease;
+}
+
+.kol-anatomy-chip:hover { transform: translateY(-2px); }
+
+.kol-anatomy-chip-head { display: flex; flex-direction: column; gap: 2px; }
+.kol-anatomy-chip-foot { display: flex; justify-content: space-between; align-items: center; }
+
+/* Anatomy typography helpers */
+.kol-anatomy-name {
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.kol-anatomy-hex {
+  font-family: var(--kol-font-family-mono, monospace);
+  font-size: 10px;
+}
+
+.kol-anatomy-strip-cell .kol-anatomy-hex { opacity: 0.72; }
+
+.kol-anatomy-chip-role {
+  font-size: 9px;
+  text-transform: uppercase;
+  opacity: 0.64;
+}
+
+.kol-anatomy-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.kol-anatomy-section-title { font-weight: 600; }
+
+.kol-anatomy-intro      { margin-bottom: 48px; }
+.kol-anatomy-strip-wrap { margin-bottom: 24px; }
+
+.kol-anatomy-strip {
+  display: flex;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--kol-fg-08);
+}
+
+.kol-anatomy-strip-cell {
+  flex: 1;
+  min-width: 0;
+  height: 88px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.kol-anatomy-brand-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-family: var(--kol-font-family-mono, monospace);
+  color: #FAFAFA;
+}
+
+.kol-anatomy-brand-dot[data-brand="canalix"] { background: #142438; color: #DEB430; }
+.kol-anatomy-brand-dot[data-brand="casedoc"] { background: #00469C; color: #FFFFFF; }
+
+.kol-anatomy-legend-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 14px;
+  border-radius: 2px;
+  font-size: 8px;
+  font-weight: 700;
+  font-family: var(--kol-font-family-mono, monospace);
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.kol-anatomy-legend-dot[data-brand="canalix"] { background: #142438; color: #DEB430; }
+.kol-anatomy-legend-dot[data-brand="casedoc"] { background: #00469C; color: #FFFFFF; }
+
+/* ───── Foundations · typography specimens ───── */
+
+.kol-type-stylecard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--kol-fg-08);
+  border-radius: 4px;
+  background: var(--kol-fg-04);
+}
+
+.kol-type-stylecard-glyph {
+  width: 32px;
+  font-size: 20px;
+}
+
+.kol-type-stylecard-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kol-type-stylecard-label { font-weight: 600; }
+
+.kol-type-stylecard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  max-width: 560px;
+}
+
+.kol-type-stylecard-grid--stacked { margin-bottom: 24px; }
+
+.kol-type-family-toggle {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.kol-type-family-label { /* FAMILY label — spacing handled by parent gap */ }
+
+.kol-type-subsection-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 32px 0 12px;
+  margin-top: 16px;
+  border-bottom: 1px solid var(--kol-fg-08);
+}
+
+.kol-type-subsection-title { font-weight: 600; }
+
+.kol-type-note {
+  margin-top: 32px;
+  padding: 16px;
+  border: 1px dashed var(--kol-fg-16);
+  border-radius: 4px;
+}
+
+/* ───── Foundations · color tokens table ───── */
+
+.kol-color-section { margin-bottom: 48px; }
+
+.kol-color-section-title {
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.kol-color-swatch-dot {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: 1px solid var(--kol-fg-12);
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.kol-color-token-name { margin-left: 8px; }
+
+.kol-color-pair-name { text-transform: uppercase; }
+
+.kol-color-pair-sample {
+  border-radius: 4px;
+  padding: 14px 16px;
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  /* border derives from inline color (color: fg) via currentColor */
+  border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+}
+
+.kol-color-pair-title {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.kol-color-pair-body {
+  font-size: 12px;
+  line-height: 1.4;
+  opacity: 0.84;
+}
+
+.kol-color-table-wrap {
+  border-radius: 4px;
+  border: 1px solid var(--kol-fg-08);
+  overflow: hidden;
+}
+
+.kol-color-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.kol-color-table thead th {
+  text-align: left;
+  padding: 12px 16px;
+  font-family: var(--kol-font-family-mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--kol-fg-48);
+  background: var(--kol-fg-03);
+  border-bottom: 1px solid var(--kol-fg-08);
+}
+
+.kol-color-table tbody td {
+  padding: 12px 16px;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--kol-fg-04);
+}
+
+.kol-color-table tbody tr:last-child td { border-bottom: none; }
+
+.kol-color-table tbody tr:hover td {
+  background: var(--kol-fg-02);
+}
+
+.kol-color-table-mono {
+  font-family: var(--kol-font-family-mono, monospace);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+/* ───── Combo Lab layout primitives — shared structure classes ───── */
+
+.kol-combo-frame {
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px color-mix(in srgb, #000 12%, transparent);
+  transition: background-color 400ms ease, border-color 400ms ease;
+}
+
+.kol-combo-slab {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 0;
+  transition: background-color 400ms ease, color 400ms ease;
+}
+
+.kol-combo-slab--end     { justify-content: flex-end; }
+.kol-combo-slab--between { justify-content: space-between; }
+
+.kol-combo-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.kol-combo-number {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.kol-combo-stage--fill {
+  height: 100%;
+  min-height: 360px;
+  width: 100%;
+}
+
+.kol-combo-logo {
+  display: inline-flex;
+  color: currentColor;
+}
+
+/* 60 / 30 / 10 */
+.kol-combo-stage--ratio { display: flex; }
+.kol-combo-stage--ratio > :nth-child(1) { flex: 1; }
+.kol-combo-stage--ratio > :nth-child(2) { flex: 3; }
+.kol-combo-stage--ratio > :nth-child(3) { flex: 6; }
+
+/* Tower */
+.kol-combo-stage--tower {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 480px;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+}
+.kol-combo-stage--tower > * { flex: 1; }
+
+/* Quad split */
+.kol-combo-stage--quad { display: flex; }
+.kol-combo-stage--quad > * { flex: 1; }
+
+.kol-combo-quad-col {
+  display: flex;
+  flex-direction: column;
+}
+.kol-combo-quad-col > * { flex: 1; }
+
+/* Card row */
+.kol-combo-stage--card-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  height: 100%;
+  min-height: 360px;
+  width: 100%;
+}
+
+.kol-combo-card {
+  flex: 1;
+  min-height: 240px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 400ms ease, color 400ms ease;
+}
+
+.kol-combo-card--end     { justify-content: flex-end; }
+.kol-combo-card--between { justify-content: space-between; }
+
+/* Stripe row */
+.kol-combo-stage--stripe-row {
+  padding: var(--kol-pad-section-y);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
+  height: 100%;
+  min-height: 360px;
+  width: 100%;
+}
+
+.kol-combo-stripe-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+}
+
+.kol-combo-stripe-bar { display: flex; flex: 1; }
+.kol-combo-stripe-bar--tall  { height: 96px; }
+.kol-combo-stripe-bar--short { height: 64px; }
+
+.kol-combo-stripe-seg { transition: background-color 400ms ease; }
+.kol-combo-stripe-seg--6 { flex: 6; }
+.kol-combo-stripe-seg--3 { flex: 3; }
+.kol-combo-stripe-seg--1 { flex: 1; }
+
+.kol-combo-stripe-group { display: flex; }
+.kol-combo-stripe-group--3 { flex: 3; }
+.kol-combo-stripe-group--1 { flex: 1; }
+
+.kol-combo-stripe-neutral {
+  border-top: 1px solid var(--stripe-rule, transparent);
+  border-bottom: 1px solid var(--stripe-rule, transparent);
+}
+
+.kol-combo-stripe-accent-border {
+  border: 1.73px solid var(--stripe-accent, transparent);
+}
+
+.kol-combo-stripe-method {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  min-width: 96px;
+}
+
+/* Applied card */
+.kol-combo-stage--applied {
+  display: flex;
+  height: 100%;
+  min-height: 360px;
+  width: 100%;
+}
+
+.kol-combo-applied-plate {
+  flex: 2;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: background-color 400ms ease, color 400ms ease;
+}
+
+.kol-combo-applied-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.kol-combo-applied-surface { flex: 3; }
+.kol-combo-applied-band--lg { flex: 2; }
+.kol-combo-applied-band--sm { flex: 1; }
+.kol-combo-applied-band { transition: background-color 400ms ease; }
+
+.kol-combo-applied-accent-strip {
+  display: flex;
+  gap: 8px;
+}
+
+.kol-combo-applied-accent-chip {
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+  transition: background-color 400ms ease;
+}
+
+/* ───── Foundations · combo lab ───── */
+
+.kol-combo-lab {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 24px;
+  border: 1px solid var(--kol-fg-08);
+  border-radius: 4px;
+  background: var(--kol-fg-02);
+}
+
+.kol-combo-controls { margin-bottom: 24px; }
+
+.kol-combo-stage-wrap {
+  flex: 1;
+  margin-bottom: 24px;
+  padding: 32px;
+  background: var(--kol-fg-03);
+  border-radius: 4px;
+  min-height: 440px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.kol-combo-stage-anim {
+  width: 100%;
+  max-width: 1100px;
+  animation: kol-combo-fade 260ms ease;
+  display: flex;
+  align-items: stretch;
+}
+
+.kol-combo-stage-anim > * { width: 100%; }
+
+/* In fullbleed mode, let the lab fill the section */
+.kol-page--fullbleed .kol-combo-lab { flex: 1; }
+.kol-page--fullbleed .kol-combo-stage-wrap { min-height: 520px; }
+
+@keyframes kol-combo-fade {
+  from { opacity: 0.2; transform: translateY(6px); }
+  to   { opacity: 1;   transform: none; }
+}
+
+.kol-combo-readout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px 32px;
+  padding-top: 16px;
+  border-top: 1px solid var(--kol-fg-08);
+}
+
+/* Combo Lab — control rows (Layout / Palette / Logo selectors) */
+.kol-combo-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.kol-combo-row-label { min-width: 72px; }
+
+.kol-combo-row-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.kol-combo-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.kol-combo-footer-desc { flex: 1; }
+
+.kol-combo-randomize {
+  padding: 8px 16px;
+  background: transparent;
+  color: var(--kol-fg-80);
+  border: 1px solid var(--kol-fg-16);
+  border-radius: 4px;
+  font-family: var(--kol-font-family-mono, monospace);
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+
+.kol-combo-randomize:hover {
+  color: var(--kol-surface-on-primary);
+  border-color: var(--kol-fg-48);
+  background: var(--kol-fg-04);
+}
+
+/* Combo Lab — live palette readout rows */
+.kol-combo-swatch-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+}
+
+.kol-combo-swatch-chip {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  transition: background 400ms ease;
+}
+
+.kol-combo-swatch-label {
+  min-width: 88px;
+  font-weight: 600;
+}
+
+.kol-combo-swatch-hex {
+  font-family: var(--kol-font-family-mono, monospace);
+  text-transform: uppercase;
+}
+
+.kol-combo-summary { margin-top: 16px; }

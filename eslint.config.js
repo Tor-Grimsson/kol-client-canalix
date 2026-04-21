@@ -23,7 +23,15 @@ export default defineConfig([
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      /* 'warn' not 'error' so builds don't block while cleanup is in flight.
+         Previous pattern `^[A-Z_]` ignored uppercase vars — that silenced unused
+         React component imports, which is exactly what we want surfaced. Only
+         underscore-prefixed vars are ignored now (intentional-unused convention). */
+      'no-unused-vars': ['warn', {
+        varsIgnorePattern: '^_',
+        argsIgnorePattern: '^_',
+        ignoreRestSiblings: true,
+      }],
     },
   },
 ])

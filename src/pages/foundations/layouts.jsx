@@ -2,59 +2,40 @@
  * Combo Lab — layout primitives.
  *
  * Every layout accepts { palette, logo } and renders its geometry with the
- * current palette's 5 role-colors. `logo` is optional — when provided, the
- * layout will try to fit it into a logo slot (some layouts ignore this).
+ * current palette's 5 role-colors. Structural CSS lives in foundations.css
+ * under `.kol-combo-*`. Inline styles here are strictly data-driven
+ * (background + color from the palette).
  */
 import BrandLogo from '../../components/marks/BrandLogo'
 import { fgOn } from './palettes'
 
-const FRAME = {
-  borderRadius: 4,
-  overflow: 'hidden',
-  boxShadow: '0 1px 2px color-mix(in srgb, #000 12%, transparent)',
-  transition: 'background-color 400ms ease, border-color 400ms ease',
-}
-
-const SLAB = {
-  padding: 24,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  minHeight: 0,
-  transition: 'background-color 400ms ease, color 400ms ease',
-}
-
-const LABEL = { fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }
-const NUMBER = { fontSize: 24, fontWeight: 800, letterSpacing: '0.02em' }
-
-const LogoSlot = ({ logo, style, size = 48 }) => {
+/* LogoSlot — size is a numeric prop, rendered as inline width. */
+const LogoSlot = ({ logo, size = 48 }) => {
   if (!logo || logo.id === 'none' || !logo.brand) return null
   return (
-    <span className="kol-combo-logo" style={{ display: 'inline-flex', width: size, color: 'currentColor', ...style }}>
+    <span className="kol-combo-logo" style={{ width: size }}>
       <BrandLogo brand={logo.brand} name={logo.name} />
     </span>
   )
 }
 
-const FILL = { height: '100%', minHeight: 360, width: '100%' }
-
 /* ────────── 60 / 30 / 10 ────────── */
 export function RatioBar({ palette, logo }) {
   const { primary, secondary, light } = palette
   return (
-    <div className="kol-combo-stage" style={{ display: 'flex', ...FILL, ...FRAME }}>
-      <div style={{ ...SLAB, flex: 1, background: primary, color: fgOn(primary) }}>
-        <span style={LABEL}>Primary</span>
+    <div className="kol-combo-stage kol-combo-frame kol-combo-stage--fill kol-combo-stage--ratio">
+      <div className="kol-combo-slab" style={{ background: primary, color: fgOn(primary) }}>
+        <span className="kol-combo-label">Primary</span>
         <LogoSlot logo={logo} size={48} />
-        <span style={NUMBER}>10</span>
+        <span className="kol-combo-number">10</span>
       </div>
-      <div style={{ ...SLAB, flex: 3, background: secondary, color: fgOn(secondary) }}>
-        <span style={LABEL}>Secondary</span>
-        <span style={NUMBER}>30</span>
+      <div className="kol-combo-slab" style={{ background: secondary, color: fgOn(secondary) }}>
+        <span className="kol-combo-label">Secondary</span>
+        <span className="kol-combo-number">30</span>
       </div>
-      <div style={{ ...SLAB, flex: 6, background: light, color: fgOn(light) }}>
-        <span style={LABEL}>Neutral</span>
-        <span style={NUMBER}>60</span>
+      <div className="kol-combo-slab" style={{ background: light, color: fgOn(light) }}>
+        <span className="kol-combo-label">Neutral</span>
+        <span className="kol-combo-number">60</span>
       </div>
     </div>
   )
@@ -64,19 +45,15 @@ export function RatioBar({ palette, logo }) {
 export function Tower({ palette, logo }) {
   const { primary, secondary, light, dark } = palette
   const band = (bg, label) => (
-    <div style={{ ...SLAB, flex: 1, background: bg, color: fgOn(bg), justifyContent: 'flex-end' }}>
-      <span style={LABEL}>{label}</span>
+    <div className="kol-combo-slab kol-combo-slab--end" style={{ background: bg, color: fgOn(bg) }}>
+      <span className="kol-combo-label">{label}</span>
     </div>
   )
   return (
-    <div className="kol-combo-stage" style={{
-      display: 'flex', flexDirection: 'column',
-      height: '100%', minHeight: 480, width: '100%', maxWidth: 360,
-      margin: '0 auto', ...FRAME,
-    }}>
-      <div style={{ ...SLAB, flex: 1, background: primary, color: fgOn(primary), justifyContent: 'space-between' }}>
+    <div className="kol-combo-stage kol-combo-frame kol-combo-stage--tower">
+      <div className="kol-combo-slab kol-combo-slab--between" style={{ background: primary, color: fgOn(primary) }}>
         <LogoSlot logo={logo} size={48} />
-        <span style={LABEL}>Primary</span>
+        <span className="kol-combo-label">Primary</span>
       </div>
       {band(secondary, 'Secondary')}
       {band(light, 'Light')}
@@ -89,18 +66,18 @@ export function Tower({ palette, logo }) {
 export function QuadSplit({ palette, logo }) {
   const { primary, light, dark, accent } = palette
   return (
-    <div className="kol-combo-stage" style={{ display: 'flex', ...FILL, ...FRAME }}>
-      <div style={{ ...SLAB, flex: 1, background: primary, color: fgOn(primary), justifyContent: 'space-between' }}>
+    <div className="kol-combo-stage kol-combo-frame kol-combo-stage--fill kol-combo-stage--quad">
+      <div className="kol-combo-slab kol-combo-slab--between" style={{ background: primary, color: fgOn(primary) }}>
         <LogoSlot logo={logo} size={64} />
-        <span style={LABEL}>Primary · 50</span>
+        <span className="kol-combo-label">Primary · 50</span>
       </div>
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <div style={{ ...SLAB, flex: 1, background: light, color: fgOn(light), justifyContent: 'flex-end' }}>
-          <span style={LABEL}>Light · 25</span>
+      <div className="kol-combo-quad-col">
+        <div className="kol-combo-slab kol-combo-slab--end" style={{ background: light, color: fgOn(light) }}>
+          <span className="kol-combo-label">Light · 25</span>
         </div>
-        <div style={{ ...SLAB, flex: 1, background: dark, color: fgOn(dark), justifyContent: 'space-between' }}>
-          <span style={{ ...LABEL, color: accent }}>Accent</span>
-          <span style={LABEL}>Dark · 25</span>
+        <div className="kol-combo-slab kol-combo-slab--between" style={{ background: dark, color: fgOn(dark) }}>
+          <span className="kol-combo-label" style={{ color: accent }}>Accent</span>
+          <span className="kol-combo-label">Dark · 25</span>
         </div>
       </div>
     </div>
@@ -111,20 +88,16 @@ export function QuadSplit({ palette, logo }) {
 export function CardRow({ palette, logo }) {
   const { primary, secondary, light, dark } = palette
   const card = (bg, label, withLogo = false) => (
-    <div style={{
-      ...SLAB, ...FRAME,
-      flex: 1, minHeight: 240, background: bg, color: fgOn(bg),
-      padding: 20, justifyContent: withLogo ? 'space-between' : 'flex-end',
-    }}>
+    <div
+      className={`kol-combo-card kol-combo-frame${withLogo ? ' kol-combo-card--between' : ' kol-combo-card--end'}`}
+      style={{ background: bg, color: fgOn(bg) }}
+    >
       {withLogo && <LogoSlot logo={logo} size={40} />}
-      <span style={LABEL}>{label}</span>
+      <span className="kol-combo-label">{label}</span>
     </div>
   )
   return (
-    <div className="kol-combo-stage" style={{
-      display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
-      gap: 16, height: '100%', minHeight: 360, width: '100%',
-    }}>
+    <div className="kol-combo-stage kol-combo-stage--card-row">
       {card(primary, 'Primary', true)}
       {card(secondary, 'Secondary')}
       {card(light, 'Light')}
@@ -136,38 +109,44 @@ export function CardRow({ palette, logo }) {
 /* ────────── Stripe row — Method 01 / 02 bars ────────── */
 export function StripeRow({ palette }) {
   const { primary, secondary, light, dark, accent } = palette
+  /* Rule color derived from dark with alpha suffix. We pass it via a CSS
+     custom prop so the class handles border-top/border-bottom declarations. */
+  const ruleColor = `${dark}20`
   return (
-    <div className="kol-combo-stage" style={{
-      ...FRAME, padding: 'clamp(24px, 3vw, 48px)', background: light,
-      display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 32,
-      height: '100%', minHeight: 360, width: '100%',
-    }}>
+    <div
+      className="kol-combo-stage kol-combo-frame kol-combo-stage--stripe-row"
+      style={{
+        background: light,
+        '--stripe-rule': ruleColor,
+        '--stripe-accent': accent,
+      }}
+    >
       {/* Method 01 — single-row proportion bar */}
-      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 24 }}>
-        <div style={{ display: 'flex', flex: 1, height: 96 }}>
-          <div style={{ flex: 6, background: primary, transition: 'background-color 400ms ease' }} />
-          <div style={{ flex: 3, background: light, borderTop: `1px solid ${dark}20`, borderBottom: `1px solid ${dark}20`, transition: 'background-color 400ms ease' }} />
-          <div style={{ flex: 1, background: accent, transition: 'background-color 400ms ease' }} />
+      <div className="kol-combo-stripe-row">
+        <div className="kol-combo-stripe-bar kol-combo-stripe-bar--tall">
+          <div className="kol-combo-stripe-seg kol-combo-stripe-seg--6" style={{ background: primary }} />
+          <div className="kol-combo-stripe-seg kol-combo-stripe-seg--3 kol-combo-stripe-neutral" style={{ background: light }} />
+          <div className="kol-combo-stripe-seg kol-combo-stripe-seg--1" style={{ background: accent }} />
         </div>
-        <span style={{ ...LABEL, color: fgOn(light), minWidth: 96 }}>Method 01</span>
+        <span className="kol-combo-stripe-method" style={{ color: fgOn(light) }}>Method 01</span>
       </div>
       {/* Method 02 — split-row */}
-      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 24 }}>
-        <div style={{ display: 'flex', flex: 1, height: 64 }}>
-          <div style={{ flex: 3, display: 'flex' }}>
-            <div style={{ flex: 1, background: primary }} />
-            <div style={{ flex: 1, background: secondary }} />
+      <div className="kol-combo-stripe-row">
+        <div className="kol-combo-stripe-bar kol-combo-stripe-bar--short">
+          <div className="kol-combo-stripe-group kol-combo-stripe-group--3">
+            <div className="kol-combo-stripe-seg kol-combo-stripe-seg--1" style={{ background: primary }} />
+            <div className="kol-combo-stripe-seg kol-combo-stripe-seg--1" style={{ background: secondary }} />
           </div>
-          <div style={{ flex: 3, display: 'flex' }}>
-            <div style={{ flex: 1, background: light, borderTop: `1px solid ${dark}20`, borderBottom: `1px solid ${dark}20` }} />
-            <div style={{ flex: 1, background: light, border: `1.73px solid ${accent}` }} />
+          <div className="kol-combo-stripe-group kol-combo-stripe-group--3">
+            <div className="kol-combo-stripe-seg kol-combo-stripe-seg--1 kol-combo-stripe-neutral" style={{ background: light }} />
+            <div className="kol-combo-stripe-seg kol-combo-stripe-seg--1 kol-combo-stripe-accent-border" style={{ background: light }} />
           </div>
-          <div style={{ flex: 1, display: 'flex' }}>
-            <div style={{ flex: 1, background: accent }} />
-            <div style={{ flex: 1, background: dark }} />
+          <div className="kol-combo-stripe-group kol-combo-stripe-group--1">
+            <div className="kol-combo-stripe-seg kol-combo-stripe-seg--1" style={{ background: accent }} />
+            <div className="kol-combo-stripe-seg kol-combo-stripe-seg--1" style={{ background: dark }} />
           </div>
         </div>
-        <span style={{ ...LABEL, color: fgOn(light), minWidth: 96 }}>Method 02</span>
+        <span className="kol-combo-stripe-method" style={{ color: fgOn(light) }}>Method 02</span>
       </div>
     </div>
   )
@@ -177,29 +156,23 @@ export function StripeRow({ palette }) {
 export function AppliedCard({ palette, logo }) {
   const { primary, secondary, light, dark, accent } = palette
   return (
-    <div className="kol-combo-stage" style={{
-      ...FRAME, background: light, display: 'flex',
-      height: '100%', minHeight: 360, width: '100%',
-    }}>
+    <div className="kol-combo-stage kol-combo-frame kol-combo-stage--applied" style={{ background: light }}>
       {/* Main logo plate */}
-      <div style={{
-        flex: 2, background: primary, color: fgOn(primary),
-        display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: 32,
-      }}>
+      <div className="kol-combo-applied-plate" style={{ background: primary, color: fgOn(primary) }}>
         <LogoSlot logo={logo} size={72} />
-        <span style={LABEL}>Front</span>
+        <span className="kol-combo-label">Front</span>
       </div>
       {/* Right swatch column */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <div style={{ ...SLAB, flex: 3, background: light, color: fgOn(light), justifyContent: 'space-between' }}>
-          <span style={LABEL}>Surface</span>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <span style={{ width: 20, height: 20, background: secondary, borderRadius: 2 }} />
-            <span style={{ width: 20, height: 20, background: accent, borderRadius: 2 }} />
+      <div className="kol-combo-applied-col">
+        <div className="kol-combo-slab kol-combo-slab--between kol-combo-applied-surface" style={{ background: light, color: fgOn(light) }}>
+          <span className="kol-combo-label">Surface</span>
+          <div className="kol-combo-applied-accent-strip">
+            <span className="kol-combo-applied-accent-chip" style={{ background: secondary }} />
+            <span className="kol-combo-applied-accent-chip" style={{ background: accent }} />
           </div>
         </div>
-        <div style={{ flex: 2, background: secondary }} />
-        <div style={{ flex: 1, background: dark }} />
+        <div className="kol-combo-applied-band kol-combo-applied-band--lg" style={{ background: secondary }} />
+        <div className="kol-combo-applied-band kol-combo-applied-band--sm" style={{ background: dark }} />
       </div>
     </div>
   )

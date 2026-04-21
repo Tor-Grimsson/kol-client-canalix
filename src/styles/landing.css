@@ -6,6 +6,19 @@
  * app.css.
  */
 
+/* Landing-scoped tokens.
+   Not DS — these are home-page surface values. If a value gains use elsewhere,
+   promote it to a shared site-wide token rather than duplicating. */
+:root {
+  --landing-bg:        #0A1420;  /* primary dark surface */
+  --landing-bg-dim:    #09111C;  /* marquee / slightly darker band */
+  --landing-bg-hover:  #101E30;  /* card hover state */
+  --landing-ink:       #FAF9F5;  /* primary text / cream */
+  --landing-accent:    #DEB430;  /* brand yellow */
+  --landing-navy:      #142438;  /* canalix navy anchor */
+  --landing-casedoc:   #0075CF;  /* casedoc hugvit-light accent */
+}
+
 /* ═════════════════════════════════════════════════════════════════
    INTRO — kinetic brand reveal
    ═════════════════════════════════════════════════════════════════ */
@@ -16,8 +29,8 @@
   margin-left: calc(50% - 50vw);
   min-height: 100dvh;
   overflow: hidden;
-  background: #0A1420;
-  color: #FAF9F5;
+  background: var(--landing-bg);
+  color: var(--landing-ink);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,11 +50,11 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 800px 600px at 50% 50%, color-mix(in srgb, #0A1420 60%, transparent) 0%, color-mix(in srgb, #0A1420 20%, transparent) 60%, transparent 100%),
+    radial-gradient(ellipse 800px 600px at 50% 50%, color-mix(in srgb, var(--landing-bg) 60%, transparent) 0%, color-mix(in srgb, var(--landing-bg) 20%, transparent) 60%, transparent 100%),
     linear-gradient(180deg,
-      color-mix(in srgb, #0A1420 48%, transparent) 0%,
-      color-mix(in srgb, #0A1420 20%, transparent) 40%,
-      color-mix(in srgb, #0A1420 64%, transparent) 100%);
+      color-mix(in srgb, var(--landing-bg) 48%, transparent) 0%,
+      color-mix(in srgb, var(--landing-bg) 20%, transparent) 40%,
+      color-mix(in srgb, var(--landing-bg) 64%, transparent) 100%);
   pointer-events: none;
 }
 
@@ -62,7 +75,7 @@
   left: 50%;
   width: clamp(280px, 32vw, 480px);
   aspect-ratio: 1;
-  background: radial-gradient(circle, color-mix(in srgb, #DEB430 44%, transparent) 0%, transparent 65%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--landing-accent) 44%, transparent) 0%, transparent 65%);
   filter: blur(24px);
   pointer-events: none;
   opacity: 0;
@@ -72,7 +85,7 @@
   position: relative;
   z-index: 1;
   width: clamp(140px, 18vw, 240px);
-  color: #DEB430;
+  color: var(--landing-accent);
 }
 
 .landing-intro-mark .kol-brand-logo,
@@ -99,7 +112,7 @@
   font-size: clamp(56px, 12vw, 160px);
   line-height: 1;
   letter-spacing: -0.02em;
-  color: #FAF9F5;
+  color: var(--landing-ink);
   display: inline-flex;
   gap: 0.02em;
 }
@@ -117,10 +130,10 @@
   gap: 16px;
   align-items: center;
   font-family: "Montserrat", sans-serif;
-  font-size: clamp(14px, 1.4vw, 18px);
+  font-size: 16px;
   font-weight: 400;
   letter-spacing: 0.04em;
-  color: color-mix(in srgb, #FAF9F5 72%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 72%, transparent);
 }
 
 .landing-pullline-item {
@@ -134,7 +147,7 @@
   font-style: italic;
   font-size: 1.25em;
   letter-spacing: 0;
-  color: #DEB430;
+  color: var(--landing-accent);
 }
 
 .landing-pullline-sep {
@@ -147,7 +160,7 @@
   bottom: 32px;
   left: 50%;
   transform: translateX(-50%);
-  color: color-mix(in srgb, #FAF9F5 48%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 48%, transparent);
   display: inline-flex;
   gap: 10px;
   align-items: center;
@@ -167,10 +180,10 @@
 .landing-feature {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  background: #0A1420;
-  color: #FAF9F5;
-  padding: clamp(80px, 12vh, 160px) clamp(32px, 6vw, 96px);
-  border-top: 1px solid color-mix(in srgb, #FAF9F5 8%, transparent);
+  background: var(--landing-bg);
+  color: var(--landing-ink);
+  padding: var(--kol-pad-page-y) var(--kol-pad-page-x);
+  border-top: 1px solid color-mix(in srgb, var(--landing-ink) 8%, transparent);
 }
 
 .landing-feature-inner {
@@ -199,7 +212,7 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: color-mix(in srgb, #FAF9F5 48%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 48%, transparent);
 }
 
 .landing-feature-pull {
@@ -209,20 +222,20 @@
   font-size: clamp(40px, 5.5vw, 72px);
   line-height: 1.05;
   letter-spacing: -0.01em;
-  color: #FAF9F5;
+  color: var(--landing-ink);
 }
 
 .landing-feature-pull em {
   font-style: italic;
-  color: #DEB430;
+  color: var(--landing-accent);
 }
 
 .landing-feature-body {
   margin: 0;
   font-family: "Montserrat", sans-serif;
-  font-size: clamp(15px, 1.1vw, 17px);
+  font-size: 16px;
   line-height: 1.6;
-  color: color-mix(in srgb, #FAF9F5 72%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 72%, transparent);
 }
 
 .landing-feature-meta {
@@ -230,7 +243,7 @@
   flex-wrap: wrap;
   gap: 28px 48px;
   padding-top: 16px;
-  border-top: 1px solid color-mix(in srgb, #FAF9F5 8%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--landing-ink) 8%, transparent);
 }
 
 .landing-feature-meta-item {
@@ -244,7 +257,7 @@
   font-weight: 700;
   font-size: 32px;
   line-height: 1;
-  color: #FAF9F5;
+  color: var(--landing-ink);
 }
 
 .landing-feature-meta-label {
@@ -253,7 +266,7 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: color-mix(in srgb, #FAF9F5 48%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 48%, transparent);
 }
 
 .landing-feature-visual {
@@ -261,7 +274,7 @@
   aspect-ratio: 4 / 5;
   border-radius: 4px;
   overflow: hidden;
-  background: #142438;
+  background: var(--landing-navy);
 }
 
 .landing-feature-visual img {
@@ -278,7 +291,7 @@
     180deg,
     transparent 0%,
     transparent 60%,
-    color-mix(in srgb, #0A1420 48%, transparent) 100%
+    color-mix(in srgb, var(--landing-bg) 48%, transparent) 100%
   );
   pointer-events: none;
 }
@@ -292,7 +305,7 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: color-mix(in srgb, #FAF9F5 80%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 80%, transparent);
 }
 
 /* ═════════════════════════════════════════════════════════════════
@@ -302,11 +315,11 @@
 .landing-marquee {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  background: #09111C;
-  color: #FAF9F5;
+  background: var(--landing-bg-dim);
+  color: var(--landing-ink);
   padding: 64px 0;
-  border-top: 1px solid color-mix(in srgb, #FAF9F5 6%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, #FAF9F5 6%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--landing-ink) 6%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--landing-ink) 6%, transparent);
   overflow: hidden;
   position: relative;
 }
@@ -314,7 +327,7 @@
 .landing-marquee-head {
   max-width: 1200px;
   margin: 0 auto 40px;
-  padding: 0 clamp(32px, 6vw, 96px);
+  padding: 0 var(--kol-pad-page-x);
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -328,13 +341,13 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: color-mix(in srgb, #FAF9F5 48%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 48%, transparent);
 }
 
 .landing-marquee-head-note {
   font-family: "Montserrat", sans-serif;
   font-size: 13px;
-  color: color-mix(in srgb, #FAF9F5 56%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 56%, transparent);
 }
 
 .landing-marquee-track-wrap {
@@ -365,16 +378,16 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  color: color-mix(in srgb, #FAF9F5 64%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 64%, transparent);
   transition: color 200ms ease;
 }
 
 .landing-marquee-track:hover .landing-marquee-item {
-  color: color-mix(in srgb, #FAF9F5 40%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 40%, transparent);
 }
 
 .landing-marquee-track .landing-marquee-item:hover {
-  color: #FAF9F5;
+  color: var(--landing-ink);
 }
 
 .landing-marquee-item-mark {
@@ -407,6 +420,14 @@
   color: color-mix(in srgb, currentColor 70%, transparent);
 }
 
+.landing-marquee-item-descriptor {
+  font-size: 0.64em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
 /* ═════════════════════════════════════════════════════════════════
    PORTAL INDEX — editorial anchor + card grid
    ═════════════════════════════════════════════════════════════════ */
@@ -414,10 +435,10 @@
 .landing-anchor {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  background: #0A1420;
-  color: #FAF9F5;
-  padding: clamp(80px, 12vh, 160px) clamp(32px, 6vw, 96px);
-  border-top: 1px solid color-mix(in srgb, #FAF9F5 8%, transparent);
+  background: var(--landing-bg);
+  color: var(--landing-ink);
+  padding: var(--kol-pad-page-y) var(--kol-pad-page-x);
+  border-top: 1px solid color-mix(in srgb, var(--landing-ink) 8%, transparent);
 }
 
 .landing-anchor-inner {
@@ -432,21 +453,21 @@
   font-size: clamp(48px, 7vw, 96px);
   line-height: 1.05;
   letter-spacing: -0.01em;
-  color: #FAF9F5;
+  color: var(--landing-ink);
 }
 
 .landing-anchor-pull-italic {
   font-style: italic;
-  color: #DEB430;
+  color: var(--landing-accent);
   margin-left: 0.2em;
 }
 
 .landing-anchor-body {
   margin: 32px 0 64px;
   font-family: "Montserrat", sans-serif;
-  font-size: clamp(16px, 1.2vw, 20px);
+  font-size: 18px;
   line-height: 1.55;
-  color: color-mix(in srgb, #FAF9F5 78%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 78%, transparent);
   max-width: 60ch;
 }
 
@@ -454,8 +475,8 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
-  background: color-mix(in srgb, #FAF9F5 8%, transparent);
-  border: 1px solid color-mix(in srgb, #FAF9F5 8%, transparent);
+  background: color-mix(in srgb, var(--landing-ink) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--landing-ink) 8%, transparent);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -475,15 +496,15 @@
   gap: 8px;
   padding: 32px 28px;
   text-decoration: none;
-  color: #FAF9F5;
-  background: #0A1420;
+  color: var(--landing-ink);
+  background: var(--landing-bg);
   transition: background 250ms ease;
   min-height: 200px;
   overflow: hidden;
 }
 
 .landing-anchor-link:hover {
-  background: #101E30;
+  background: var(--landing-bg-hover);
 }
 
 .landing-anchor-link-num {
@@ -491,7 +512,7 @@
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.14em;
-  color: color-mix(in srgb, #FAF9F5 48%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 48%, transparent);
   margin-bottom: auto;
 }
 
@@ -506,11 +527,11 @@
 .landing-anchor-link-sub {
   font-family: "Montserrat", sans-serif;
   font-size: 13px;
-  color: color-mix(in srgb, #FAF9F5 56%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 56%, transparent);
 }
 
 .landing-anchor-link:hover .landing-anchor-link-label {
-  color: #DEB430;
+  color: var(--landing-accent);
 }
 
 .landing-anchor-link-mark {
@@ -528,20 +549,20 @@
 .landing-anchor-link-mark .kol-brand-logo,
 .landing-anchor-link-mark svg { width: 100%; height: auto; display: block; }
 
-.landing-anchor-link--canalix { color: #FAF9F5; }
-.landing-anchor-link--canalix .landing-anchor-link-mark { color: #DEB430; }
+.landing-anchor-link--canalix { color: var(--landing-ink); }
+.landing-anchor-link--canalix .landing-anchor-link-mark { color: var(--landing-accent); }
 .landing-anchor-link--canalix:hover .landing-anchor-link-mark {
   opacity: 0.26;
   transform: translateY(-50%) rotate(0deg) scale(1.06);
 }
-.landing-anchor-link--canalix:hover .landing-anchor-link-label { color: #DEB430; }
+.landing-anchor-link--canalix:hover .landing-anchor-link-label { color: var(--landing-accent); }
 
-.landing-anchor-link--casedoc .landing-anchor-link-mark { color: #0075CF; }
+.landing-anchor-link--casedoc .landing-anchor-link-mark { color: var(--landing-casedoc); }
 .landing-anchor-link--casedoc:hover .landing-anchor-link-mark {
   opacity: 0.28;
   transform: translateY(-50%) rotate(0deg) scale(1.06);
 }
-.landing-anchor-link--casedoc:hover .landing-anchor-link-label { color: #0075CF; }
+.landing-anchor-link--casedoc:hover .landing-anchor-link-label { color: var(--landing-casedoc); }
 
 .landing-anchor-link-num,
 .landing-anchor-link-label,
@@ -554,10 +575,10 @@
 .landing-sig {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  background: #0A1420;
-  color: color-mix(in srgb, #FAF9F5 56%, transparent);
-  padding: 40px clamp(32px, 6vw, 96px);
-  border-top: 1px solid color-mix(in srgb, #FAF9F5 8%, transparent);
+  background: var(--landing-bg);
+  color: color-mix(in srgb, var(--landing-ink) 56%, transparent);
+  padding: 40px var(--kol-pad-page-x);
+  border-top: 1px solid color-mix(in srgb, var(--landing-ink) 8%, transparent);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -578,6 +599,8 @@
 
 .landing-sig-sep { opacity: 0.3; }
 
+.landing-sig-hex { font-family: var(--kol-font-family-mono, monospace); }
+
 /* ═════════════════════════════════════════════════════════════════
    GALLERY — work highlights carousel (horizontal scroll-snap)
    ═════════════════════════════════════════════════════════════════ */
@@ -585,16 +608,16 @@
 .landing-gallery {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  background: #0A1420;
-  color: #FAF9F5;
-  padding: clamp(80px, 10vh, 128px) 0;
-  border-top: 1px solid color-mix(in srgb, #FAF9F5 8%, transparent);
+  background: var(--landing-bg);
+  color: var(--landing-ink);
+  padding: var(--kol-pad-band-y) 0;
+  border-top: 1px solid color-mix(in srgb, var(--landing-ink) 8%, transparent);
 }
 
 .landing-gallery-head {
   max-width: 1200px;
   margin: 0 auto 48px;
-  padding: 0 clamp(32px, 6vw, 96px);
+  padding: 0 var(--kol-pad-page-x);
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -609,15 +632,15 @@
   font-size: clamp(32px, 4.5vw, 56px);
   line-height: 1.1;
   letter-spacing: -0.01em;
-  color: #FAF9F5;
+  color: var(--landing-ink);
 }
 
-.landing-gallery-title em { font-style: italic; color: #DEB430; }
+.landing-gallery-title em { font-style: italic; color: var(--landing-accent); }
 
 .landing-gallery-note {
   font-family: "Montserrat", sans-serif;
   font-size: 13px;
-  color: color-mix(in srgb, #FAF9F5 56%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 56%, transparent);
   max-width: 36ch;
 }
 
@@ -628,8 +651,8 @@
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
-  padding: 0 clamp(32px, 6vw, 96px) 24px;
-  scroll-padding-left: clamp(32px, 6vw, 96px);
+  padding: 0 var(--kol-pad-page-x) 24px;
+  scroll-padding-left: var(--kol-pad-page-x);
 }
 
 .landing-gallery-track::-webkit-scrollbar { display: none; }
@@ -641,7 +664,7 @@
   flex-direction: column;
   gap: 16px;
   text-decoration: none;
-  color: #FAF9F5;
+  color: var(--landing-ink);
   transition: transform 300ms ease;
 }
 
@@ -654,8 +677,8 @@
   aspect-ratio: 4 / 5;
   border-radius: 4px;
   overflow: hidden;
-  background: #142438;
-  border: 1px solid color-mix(in srgb, #FAF9F5 8%, transparent);
+  background: var(--landing-navy);
+  border: 1px solid color-mix(in srgb, var(--landing-ink) 8%, transparent);
 }
 
 .landing-gallery-card-visual img {
@@ -676,7 +699,7 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: color-mix(in srgb, #FAF9F5 48%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 48%, transparent);
 }
 
 .landing-gallery-card-title {
@@ -689,7 +712,7 @@
 }
 
 .landing-gallery-card:hover .landing-gallery-card-title {
-  color: #DEB430;
+  color: var(--landing-accent);
 }
 
 .landing-gallery-card-desc {
@@ -697,7 +720,30 @@
   font-family: "Montserrat", sans-serif;
   font-size: 13px;
   line-height: 1.5;
-  color: color-mix(in srgb, #FAF9F5 64%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 64%, transparent);
+}
+
+.landing-gallery-card-mark-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.9;
+}
+
+.landing-gallery-card-mark-slot { width: 52%; }
+
+.landing-gallery-card-letter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(80px, 14vw, 200px);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
 }
 
 /* ═════════════════════════════════════════════════════════════════
@@ -707,10 +753,10 @@
 .landing-testimonial {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  background: #0A1420;
-  color: #FAF9F5;
-  padding: clamp(96px, 14vh, 200px) clamp(32px, 6vw, 96px);
-  border-top: 1px solid color-mix(in srgb, #FAF9F5 8%, transparent);
+  background: var(--landing-bg);
+  color: var(--landing-ink);
+  padding: var(--kol-pad-page-y) var(--kol-pad-page-x);
+  border-top: 1px solid color-mix(in srgb, var(--landing-ink) 8%, transparent);
 }
 
 .landing-testimonial-inner {
@@ -726,7 +772,7 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: color-mix(in srgb, #FAF9F5 48%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 48%, transparent);
   margin-bottom: 32px;
 }
 
@@ -738,13 +784,13 @@
   font-size: clamp(32px, 4.5vw, 64px);
   line-height: 1.2;
   letter-spacing: -0.01em;
-  color: #FAF9F5;
+  color: var(--landing-ink);
 }
 
 .landing-testimonial-quote::before,
 .landing-testimonial-quote::after {
   content: '"';
-  color: #DEB430;
+  color: var(--landing-accent);
   opacity: 0.7;
 }
 
@@ -756,7 +802,7 @@
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.08em;
-  color: color-mix(in srgb, #FAF9F5 64%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 64%, transparent);
 }
 
 .landing-testimonial-cite::before {
@@ -771,10 +817,10 @@
 .landing-faq {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  background: #0A1420;
-  color: #FAF9F5;
-  padding: clamp(80px, 12vh, 160px) clamp(32px, 6vw, 96px);
-  border-top: 1px solid color-mix(in srgb, #FAF9F5 8%, transparent);
+  background: var(--landing-bg);
+  color: var(--landing-ink);
+  padding: var(--kol-pad-page-y) var(--kol-pad-page-x);
+  border-top: 1px solid color-mix(in srgb, var(--landing-ink) 8%, transparent);
 }
 
 .landing-faq-inner {
@@ -782,7 +828,7 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: clamp(32px, 6vw, 96px);
+  gap: var(--kol-pad-page-x);
 }
 
 @media (max-width: 900px) {
@@ -797,7 +843,7 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: color-mix(in srgb, #FAF9F5 48%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 48%, transparent);
 }
 
 .landing-faq-title {
@@ -807,7 +853,7 @@
   font-size: clamp(32px, 4vw, 48px);
   line-height: 1.1;
   letter-spacing: -0.01em;
-  color: #FAF9F5;
+  color: var(--landing-ink);
 }
 
 .landing-faq-list {
@@ -816,11 +862,11 @@
 }
 
 .landing-faq-item {
-  border-top: 1px solid color-mix(in srgb, #FAF9F5 8%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--landing-ink) 8%, transparent);
 }
 
 .landing-faq-item:last-child {
-  border-bottom: 1px solid color-mix(in srgb, #FAF9F5 8%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--landing-ink) 8%, transparent);
 }
 
 .landing-faq-item > summary {
@@ -833,14 +879,14 @@
   gap: 16px;
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
-  font-size: clamp(16px, 1.2vw, 18px);
-  color: #FAF9F5;
+  font-size: 17px;
+  color: var(--landing-ink);
   transition: color 200ms ease;
 }
 
 .landing-faq-item > summary::-webkit-details-marker { display: none; }
 
-.landing-faq-item > summary:hover { color: #DEB430; }
+.landing-faq-item > summary:hover { color: var(--landing-accent); }
 
 .landing-faq-item-toggle {
   flex-shrink: 0;
@@ -849,7 +895,7 @@
   justify-content: center;
   width: 28px;
   height: 28px;
-  border: 1px solid color-mix(in srgb, #FAF9F5 24%, transparent);
+  border: 1px solid color-mix(in srgb, var(--landing-ink) 24%, transparent);
   border-radius: 50%;
   font-size: 14px;
   line-height: 1;
@@ -858,8 +904,8 @@
 
 .landing-faq-item[open] .landing-faq-item-toggle {
   transform: rotate(45deg);
-  border-color: #DEB430;
-  color: #DEB430;
+  border-color: var(--landing-accent);
+  color: var(--landing-accent);
 }
 
 .landing-faq-item-body {
@@ -867,12 +913,12 @@
   font-family: "Montserrat", sans-serif;
   font-size: 15px;
   line-height: 1.6;
-  color: color-mix(in srgb, #FAF9F5 72%, transparent);
+  color: color-mix(in srgb, var(--landing-ink) 72%, transparent);
   max-width: 56ch;
 }
 
 .landing-faq-item-body a {
-  color: #DEB430;
+  color: var(--landing-accent);
   text-decoration: underline;
   text-underline-offset: 3px;
 }

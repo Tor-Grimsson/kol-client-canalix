@@ -20,6 +20,34 @@ body {
   --kol-sidenav-w: 260px;
   --kol-sidenav-w-collapsed: 56px;
   --kol-container-max: 100%;
+
+  /* Site-scoped alpha tokens — translucent fg-on-surface at each opacity level.
+     Shorthand for color-mix(in srgb, var(--kol-surface-on-primary) N%, transparent).
+     Use these in CSS rules where utility classes (.bg-fg-*, .text-fg-*, .border-fg-*)
+     don't apply — e.g. pseudo-elements, hover/focus rules, gradient stops. */
+  --kol-fg-02: color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent);
+  --kol-fg-03: color-mix(in srgb, var(--kol-surface-on-primary) 3%, transparent);
+  --kol-fg-04: color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent);
+  --kol-fg-06: color-mix(in srgb, var(--kol-surface-on-primary) 6%, transparent);
+  --kol-fg-08: color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+  --kol-fg-12: color-mix(in srgb, var(--kol-surface-on-primary) 12%, transparent);
+  --kol-fg-16: color-mix(in srgb, var(--kol-surface-on-primary) 16%, transparent);
+  --kol-fg-24: color-mix(in srgb, var(--kol-surface-on-primary) 24%, transparent);
+  --kol-fg-32: color-mix(in srgb, var(--kol-surface-on-primary) 32%, transparent);
+  --kol-fg-48: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
+  --kol-fg-56: color-mix(in srgb, var(--kol-surface-on-primary) 56%, transparent);
+  --kol-fg-64: color-mix(in srgb, var(--kol-surface-on-primary) 64%, transparent);
+  --kol-fg-72: color-mix(in srgb, var(--kol-surface-on-primary) 72%, transparent);
+  --kol-fg-78: color-mix(in srgb, var(--kol-surface-on-primary) 78%, transparent);
+  --kol-fg-80: color-mix(in srgb, var(--kol-surface-on-primary) 80%, transparent);
+  --kol-fg-88: color-mix(in srgb, var(--kol-surface-on-primary) 88%, transparent);
+  --kol-fg-40: color-mix(in srgb, var(--kol-surface-on-primary) 40%, transparent);
+  --kol-fg-96: color-mix(in srgb, var(--kol-surface-on-primary) 96%, transparent);
+
+  /* CTA / button transition shortcut (matches prevailing ease curve in site CSS).
+     Distinct from DS --kol-transition-base (which uses a Material cubic-bezier).
+     Intentional: site chrome uses browser-ease for a softer feel. */
+  --kol-t-btn: background 200ms ease, color 200ms ease, border-color 200ms ease;
 }
 
 @media (min-width: 1024px) { :root { --kol-container-max: 1400px; } }
@@ -58,8 +86,16 @@ body {
 }
 
 @media (max-width: 1024px) {
-  .kol-brand-layout { grid-template-columns: 1fr; }
-  .kol-sidenav { display: none; }
+  /* Force rail mode below lg — keep nav accessible, hide panels + labels.
+     User's localStorage expand preference is overridden while viewport is narrow;
+     restored once they cross back over the threshold. */
+  .kol-brand-layout { grid-template-columns: var(--kol-sidenav-w-collapsed) minmax(0, 1fr); }
+  .kol-sidenav-toggle { display: none; }
+  .kol-sidenav-hops { padding: 0 0 16px; margin-bottom: 16px; }
+  .kol-sidenav-hop { padding: 8px 0; justify-content: center; gap: 0; }
+  .kol-sidenav-hop-label { display: none; }
+  .kol-sidenav-hop.is-active::after { right: 6px; width: 4px; height: 4px; }
+  .kol-sidenav-body { display: none; }
 }
 
 /* ───── TopNav (home only — fixed, smart hide-on-scroll) ───── */
@@ -73,7 +109,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px clamp(24px, 4vw, 64px);
+  padding: 16px var(--kol-pad-section-x);
   background: color-mix(in srgb, #0A1420 82%, transparent);
   backdrop-filter: saturate(150%) blur(10px);
   -webkit-backdrop-filter: saturate(150%) blur(10px);
@@ -110,7 +146,7 @@ body {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 80%, transparent);
+  color: var(--kol-fg-80);
 }
 
 .kol-topnav-links {
@@ -160,7 +196,7 @@ body {
   background: transparent;
   border: none;
   padding: 0;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
+  color: var(--kol-fg-48);
   cursor: pointer;
   font-size: 18px;
   line-height: 1;
@@ -177,7 +213,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  border-bottom: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+  border-bottom: 1px solid var(--kol-fg-08);
   padding-bottom: 16px;
 }
 
@@ -187,7 +223,7 @@ body {
   gap: 12px;
   padding: 8px 40px 8px 24px;
   text-decoration: none;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
+  color: var(--kol-fg-48);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   transition: color 150ms ease, background 150ms ease;
@@ -195,7 +231,7 @@ body {
 }
 
 .kol-sidenav-hop:hover {
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 80%, transparent);
+  color: var(--kol-fg-80);
 }
 
 .kol-sidenav-hop.is-active {
@@ -220,7 +256,7 @@ body {
   justify-content: center;
   width: 20px;
   height: 20px;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 64%, transparent);
+  color: var(--kol-fg-64);
   flex-shrink: 0;
   transition: color 150ms ease;
 }
@@ -335,7 +371,7 @@ body {
 .kol-page--fullbleed {
   max-width: none !important;
   min-height: 100vh;
-  padding: 64px clamp(24px, 4vw, 64px);
+  padding: 64px var(--kol-pad-section-x);
   display: flex;
   flex-direction: column;
 }
@@ -568,7 +604,7 @@ body {
 }
 
 .kol-type-sample + .kol-type-sample {
-  border-top: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+  border-top: 1px solid var(--kol-fg-08);
 }
 
 .kol-type-sample-body { margin: 0; }
@@ -590,13 +626,13 @@ body {
 .kol-prose blockquote {
   margin: 24px 0;
   padding: 16px 24px;
-  border-left: 2px solid color-mix(in srgb, var(--kol-surface-on-primary) 32%, transparent);
+  border-left: 2px solid var(--kol-fg-32);
   font-style: italic;
 }
 
 .kol-prose-indented {
   padding-left: 32px;
-  border-left: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 16%, transparent);
+  border-left: 1px solid var(--kol-fg-16);
 }
 
 .kol-prose pre {
@@ -625,8 +661,8 @@ body {
 .kol-prose-pullout {
   padding: 16px 0;
   margin: 32px 0;
-  border-top: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+  border-top: 1px solid var(--kol-fg-08);
+  border-bottom: 1px solid var(--kol-fg-08);
 }
 
 /* ───── Figure (plain image wrapper) ───── */
@@ -738,7 +774,7 @@ body {
 
 .kol-website-preview { margin-bottom: 32px; }
 .kol-website-preview .kol-asset-figure-frame {
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent);
+  background: var(--kol-fg-02);
 }
 
 /* ───── Brand logo base ───── */
@@ -789,7 +825,7 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 8px 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent);
+  border-bottom: 1px solid var(--kol-fg-04);
 }
 
 .kol-type-spec-meta-row:last-child { border-bottom: none; }
@@ -859,7 +895,7 @@ body {
   justify-content: center;
   gap: 12px;
   padding: 48px 24px;
-  border-top: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
+  border-top: 1px solid var(--kol-fg-08);
 }
 
 .kol-portal-footer p { margin: 0; }
@@ -882,9 +918,9 @@ body {
 .kol-codeblock {
   position: relative;
   margin: 16px 0;
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 16%, transparent);
+  border: 1px solid var(--kol-fg-16);
   border-radius: 4px;
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent);
+  background: var(--kol-fg-04);
   overflow: hidden;
 }
 
@@ -915,7 +951,7 @@ body {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 40%, transparent);
+  color: var(--kol-fg-40);
 }
 
 .kol-codeblock-lang + pre {
@@ -931,9 +967,9 @@ body {
   gap: 6px;
   padding: 6px 10px;
   background: color-mix(in srgb, var(--kol-surface-primary) 80%, transparent);
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 16%, transparent);
+  border: 1px solid var(--kol-fg-16);
   border-radius: 3px;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 64%, transparent);
+  color: var(--kol-fg-64);
   cursor: pointer;
   font-family: var(--kol-font-family-mono, monospace);
   font-size: 10px;
@@ -945,338 +981,10 @@ body {
 
 .kol-codeblock-copy:hover {
   color: var(--kol-surface-on-primary);
-  border-color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
+  border-color: var(--kol-fg-48);
 }
 
 .kol-codeblock-copy-label { line-height: 1; }
-
-/* ───── Foundations · anatomy spectrum ───── */
-
-.kol-anatomy-spectrum {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 2px;
-  border-radius: 4px;
-  overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-}
-
-.kol-anatomy-chip {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 140px;
-  padding: 12px;
-  transition: transform 180ms ease;
-}
-
-.kol-anatomy-chip:hover { transform: translateY(-2px); }
-
-.kol-anatomy-chip-head { display: flex; flex-direction: column; gap: 2px; }
-.kol-anatomy-chip-foot { display: flex; justify-content: space-between; align-items: center; }
-
-.kol-anatomy-strip {
-  display: flex;
-  border-radius: 4px;
-  overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-}
-
-.kol-anatomy-strip-cell {
-  flex: 1;
-  min-width: 0;
-  height: 88px;
-  padding: 10px 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.kol-anatomy-brand-dot {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 3px;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  font-family: var(--kol-font-family-mono, monospace);
-  color: #FAFAFA;
-}
-
-.kol-anatomy-brand-dot[data-brand="canalix"] { background: #142438; color: #DEB430; }
-.kol-anatomy-brand-dot[data-brand="casedoc"] { background: #00469C; color: #FFFFFF; }
-
-.kol-anatomy-legend-dot {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 14px;
-  border-radius: 2px;
-  font-size: 8px;
-  font-weight: 700;
-  font-family: var(--kol-font-family-mono, monospace);
-  margin-right: 4px;
-  vertical-align: middle;
-}
-
-.kol-anatomy-legend-dot[data-brand="canalix"] { background: #142438; color: #DEB430; }
-.kol-anatomy-legend-dot[data-brand="casedoc"] { background: #00469C; color: #FFFFFF; }
-
-/* ───── Foundations · color tokens table ───── */
-
-.kol-color-table-wrap {
-  border-radius: 4px;
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-  overflow: hidden;
-}
-
-.kol-color-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-
-.kol-color-table thead th {
-  text-align: left;
-  padding: 12px 16px;
-  font-family: var(--kol-font-family-mono, monospace);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 3%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-}
-
-.kol-color-table tbody td {
-  padding: 12px 16px;
-  vertical-align: middle;
-  border-bottom: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent);
-}
-
-.kol-color-table tbody tr:last-child td { border-bottom: none; }
-
-.kol-color-table tbody tr:hover td {
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent);
-}
-
-.kol-color-table-mono {
-  font-family: var(--kol-font-family-mono, monospace);
-  font-size: 12px;
-  letter-spacing: 0.02em;
-}
-
-/* ───── Foundations · combo lab ───── */
-
-.kol-combo-lab {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 24px;
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-  border-radius: 4px;
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent);
-}
-
-.kol-combo-controls { margin-bottom: 24px; }
-
-.kol-combo-stage-wrap {
-  flex: 1;
-  margin-bottom: 24px;
-  padding: 32px;
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 3%, transparent);
-  border-radius: 4px;
-  min-height: 440px;
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-}
-
-.kol-combo-stage-anim {
-  width: 100%;
-  max-width: 1100px;
-  animation: kol-combo-fade 260ms ease;
-  display: flex;
-  align-items: stretch;
-}
-
-.kol-combo-stage-anim > * { width: 100%; }
-
-/* In fullbleed mode, let the lab fill the section */
-.kol-page--fullbleed .kol-combo-lab { flex: 1; }
-.kol-page--fullbleed .kol-combo-stage-wrap { min-height: 520px; }
-
-@keyframes kol-combo-fade {
-  from { opacity: 0.2; transform: translateY(6px); }
-  to   { opacity: 1;   transform: none; }
-}
-
-.kol-combo-readout {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 8px 32px;
-  padding-top: 16px;
-  border-top: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-}
-
-/* ───── Branded House builder ───── */
-
-.kol-bh-builder {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 320px minmax(0, 1fr);
-  grid-template-rows: 1fr;
-  gap: 32px;
-  min-height: 560px;
-}
-
-@media (max-width: 1024px) {
-  .kol-bh-builder { grid-template-columns: 1fr; }
-}
-
-.kol-bh-panel {
-  padding: 24px;
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-  border-radius: 4px;
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent);
-  align-self: flex-start;
-}
-
-/* Controls — use DS ViewToggle for radios; simple DS-tokenized rules for rest */
-.kol-bh-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.kol-bh-field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.kol-bh-field-label { font-weight: 600; }
-
-.kol-bh-input {
-  width: 100%;
-  padding: 10px 12px;
-  font-family: "Montserrat", sans-serif;
-  font-size: 14px;
-  color: var(--kol-surface-on-primary);
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent);
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 16%, transparent);
-  border-radius: 4px;
-  outline: none;
-  transition: border-color 150ms ease, background 150ms ease;
-}
-
-.kol-bh-input::placeholder {
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 32%, transparent);
-}
-
-.kol-bh-input:focus {
-  border-color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 6%, transparent);
-}
-
-.kol-bh-copy {
-  margin-top: 8px;
-  padding: 12px 20px;
-  width: 100%;
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-  color: var(--kol-surface-on-primary);
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 32%, transparent);
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
-}
-
-.kol-bh-copy:hover {
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 12%, transparent);
-  border-color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent);
-}
-
-.kol-bh-copy.is-copied {
-  background: var(--kol-accent-primary, var(--kol-surface-on-primary));
-  color: var(--kol-surface-primary);
-  border-color: transparent;
-}
-
-.kol-bh-stage {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.kol-bh-stage-inner {
-  flex: 1;
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-  border-radius: 4px;
-  padding: clamp(24px, 4vw, 64px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 420px;
-  overflow: auto;
-  position: relative;
-  background: repeating-linear-gradient(
-    45deg,
-    color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent),
-    color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent) 12px,
-    color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent) 12px,
-    color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent) 24px
-  );
-}
-
-.kol-bh-output {
-  margin: 0;
-  padding: 16px 20px;
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-  border-radius: 4px;
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 3%, transparent);
-  font-family: var(--kol-font-family-mono, monospace);
-  font-size: 12px;
-  line-height: 1.5;
-  color: color-mix(in srgb, var(--kol-surface-on-primary) 80%, transparent);
-  overflow-x: auto;
-  white-space: pre;
-}
-
-/* Library grid */
-.kol-bh-lib-group {
-  margin-bottom: 40px;
-}
-
-.kol-bh-lib-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 12px;
-}
-
-.kol-bh-lib-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 16px;
-  border: 1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent);
-  border-radius: 4px;
-  background: transparent;
-  cursor: pointer;
-  min-height: 120px;
-  transition: border-color 150ms ease, transform 150ms ease, background 150ms ease;
-}
-
-.kol-bh-lib-card:hover {
-  border-color: color-mix(in srgb, var(--kol-surface-on-primary) 32%, transparent);
-  background: color-mix(in srgb, var(--kol-surface-on-primary) 2%, transparent);
-  transform: translateY(-1px);
-}
 
 /* ───── Reveal utility ───── */
 
@@ -1294,10 +1002,10 @@ body {
 /* ───── Hover text utilities (DS doesn't ship hover:text-fg-*; we add a minimal set) ───── */
 
 .hover\:text-auto:hover    { color: var(--kol-surface-on-primary); }
-.hover\:text-fg-48:hover   { color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent); }
-.hover\:text-fg-64:hover   { color: color-mix(in srgb, var(--kol-surface-on-primary) 64%, transparent); }
-.hover\:text-fg-80:hover   { color: color-mix(in srgb, var(--kol-surface-on-primary) 80%, transparent); }
-.hover\:text-fg-96:hover   { color: color-mix(in srgb, var(--kol-surface-on-primary) 96%, transparent); }
+.hover\:text-fg-48:hover   { color: var(--kol-fg-48); }
+.hover\:text-fg-64:hover   { color: var(--kol-fg-64); }
+.hover\:text-fg-80:hover   { color: var(--kol-fg-80); }
+.hover\:text-fg-96:hover   { color: var(--kol-fg-96); }
 
-.hover\:border-fg-32:hover { border-color: color-mix(in srgb, var(--kol-surface-on-primary) 32%, transparent); }
-.hover\:border-fg-48:hover { border-color: color-mix(in srgb, var(--kol-surface-on-primary) 48%, transparent); }
+.hover\:border-fg-32:hover { border-color: var(--kol-fg-32); }
+.hover\:border-fg-48:hover { border-color: var(--kol-fg-48); }

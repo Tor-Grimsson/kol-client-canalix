@@ -9,6 +9,7 @@ import { useState } from 'react'
 import PageSection from '../../components/cards/PageSection'
 import TypeSpecCard from '../../components/cards/TypeSpecCard'
 import CodeBlock from '../../components/ui/CodeBlock'
+import ViewToggle from '../../components/ui/ViewToggle'
 
 const MONT = '"Montserrat", sans-serif'
 const HATTON = '"PP Hatton", serif'
@@ -72,47 +73,20 @@ const weightName = (w) => ({
 }[w] ?? String(w))
 
 const StyleCard = ({ family, weightNum, weightLabel, label }) => (
-  <div style={{
-    display: 'flex', alignItems: 'center', gap: 16,
-    background: 'color-mix(in srgb, var(--kol-surface-on-primary) 4%, transparent)',
-    border: '1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent)',
-    borderRadius: 4, padding: '12px 16px',
-  }}>
-    <span style={{ fontFamily: family, fontWeight: weightNum, fontSize: 20, width: 32 }}>Aa</span>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <span className="kol-helper-xs-2 text-auto" style={{ fontWeight: 600 }}>{label}</span>
+  /* family + weightNum are data-driven (which face to render) */
+  <div className="kol-type-stylecard">
+    <span className="kol-type-stylecard-glyph" style={{ fontFamily: family, fontWeight: weightNum }}>Aa</span>
+    <div className="kol-type-stylecard-meta">
+      <span className="kol-helper-xs-2 text-auto kol-type-stylecard-label">{label}</span>
       <span className="kol-helper-xxs text-fg-48">{weightLabel}</span>
     </div>
   </div>
 )
 
-const ToggleButton = ({ active, onClick, children }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    style={{
-      padding: '10px 20px',
-      border: '1px solid color-mix(in srgb, var(--kol-surface-on-primary) ' + (active ? '80' : '16') + '%, transparent)',
-      background: active ? 'color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent)' : 'transparent',
-      color: active ? 'var(--kol-surface-on-primary)' : 'color-mix(in srgb, var(--kol-surface-on-primary) 64%, transparent)',
-      borderRadius: 4, cursor: 'pointer',
-      fontFamily: 'var(--kol-font-family-mono, monospace)',
-      fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase',
-      transition: 'all 180ms ease',
-    }}
-  >
-    {children}
-  </button>
-)
-
 function SubsectionLabel({ label, count }) {
   return (
-    <div style={{
-      display: 'flex', alignItems: 'baseline', justifyContent: 'space-between',
-      padding: '32px 0 12px', marginTop: 16,
-      borderBottom: '1px solid color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent)',
-    }}>
-      <span className="kol-helper-xs-2 uppercase tracking-widest text-auto" style={{ fontWeight: 600 }}>
+    <div className="kol-type-subsection-head">
+      <span className="kol-helper-xs-2 uppercase tracking-widest text-auto kol-type-subsection-title">
         {label}
       </span>
       <span className="kol-helper-xxs text-fg-48">{count} specimens</span>
@@ -200,20 +174,14 @@ export default function TypographySections() {
         title="Two families, one voice"
         body="The Canalix house runs on Montserrat for product and UI, with PP Hatton as the serif display partner for editorial moments. Casedoc inherits the same two families. All specimens below are production-sized — px values, not clamps. Letter-spacing is 0 across the board."
       >
-        <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-          gap: 12, maxWidth: 560, marginBottom: 24,
-        }} data-reveal>
+        <div className="kol-type-stylecard-grid kol-type-stylecard-grid--stacked" data-reveal>
           <StyleCard label="Montserrat" family={MONT} weightNum={400} weightLabel="Regular" />
           <StyleCard label="Montserrat" family={MONT} weightNum={500} weightLabel="Medium" />
           <StyleCard label="Montserrat" family={MONT} weightNum={600} weightLabel="Semi Bold" />
           <StyleCard label="Montserrat" family={MONT} weightNum={700} weightLabel="Bold" />
           <StyleCard label="Montserrat" family={MONT} weightNum={800} weightLabel="Extra Bold" />
         </div>
-        <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-          gap: 12, maxWidth: 560,
-        }} data-reveal>
+        <div className="kol-type-stylecard-grid" data-reveal>
           <StyleCard label="PP Hatton" family={HATTON} weightNum={400} weightLabel="Regular" />
           <StyleCard label="PP Hatton" family={HATTON} weightNum={500} weightLabel="Medium" />
           <StyleCard label="PP Hatton" family={HATTON} weightNum={600} weightLabel="Semi Bold" />
@@ -227,13 +195,13 @@ export default function TypographySections() {
         title="Specimens"
         body="Every tier rendered at production px. Toggle the family to see the same scale in the serif partner. PP Hatton only occupies Heading tiers — subheading and text are Montserrat-only workhorses."
       >
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 32 }} data-reveal>
-          <span className="kol-helper-xxs text-fg-48" style={{ marginRight: 8 }}>FAMILY</span>
-          {Object.values(FAMILIES).map((f) => (
-            <ToggleButton key={f.id} active={familyId === f.id} onClick={() => setFamilyId(f.id)}>
-              {f.label}
-            </ToggleButton>
-          ))}
+        <div className="kol-type-family-toggle" data-reveal>
+          <span className="kol-helper-xxs text-fg-48 kol-type-family-label">FAMILY</span>
+          <ViewToggle
+            viewMode={familyId}
+            onViewChange={setFamilyId}
+            options={Object.values(FAMILIES).map((f) => ({ value: f.id, label: f.label }))}
+          />
         </div>
 
         {active.display && (
@@ -280,11 +248,7 @@ export default function TypographySections() {
         )}
 
         {active.id === 'hatton' && (
-          <div style={{
-            marginTop: 32, padding: 16,
-            border: '1px dashed color-mix(in srgb, var(--kol-surface-on-primary) 16%, transparent)',
-            borderRadius: 4,
-          }}>
+          <div className="kol-type-note">
             <span className="kol-helper-xxs text-fg-48">
               PP Hatton is display-only — Subheading and Text tiers stay on Montserrat.
             </span>

@@ -1,38 +1,30 @@
 import { useState } from 'react'
+import ViewToggle from '../../components/ui/ViewToggle'
 import { PALETTES, LAYOUTS, LOGOS } from './palettes'
 import { LAYOUT_COMPONENTS } from './layouts'
 
-const chipBase = {
-  display: 'inline-flex', alignItems: 'center', gap: 8,
-  padding: '6px 12px', fontSize: 12, fontFamily: 'var(--kol-font-family-mono, monospace)',
-  letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 500,
-  border: '1px solid color-mix(in srgb, var(--kol-surface-on-primary) 16%, transparent)',
-  borderRadius: 4, cursor: 'pointer', background: 'transparent', color: 'inherit',
-  transition: 'border-color 150ms ease, background 150ms ease, color 150ms ease',
+const toOptions = (items) => items.map((i) => ({ value: i.id, label: i.label }))
+
+function Row({ label, children }) {
+  return (
+    <div className="kol-combo-row">
+      <span className="kol-combo-row-label kol-helper-xs-2 uppercase tracking-widest text-fg-48">
+        {label}
+      </span>
+      <div className="kol-combo-row-controls">{children}</div>
+    </div>
+  )
 }
 
-const chipActive = {
-  ...chipBase,
-  borderColor: 'color-mix(in srgb, var(--kol-surface-on-primary) 80%, transparent)',
-  background: 'color-mix(in srgb, var(--kol-surface-on-primary) 8%, transparent)',
-  color: 'var(--kol-surface-on-primary)',
+function SwatchRow({ label, hex }) {
+  return (
+    <div className="kol-combo-swatch-row">
+      <span className="kol-combo-swatch-chip" style={{ background: hex }} />
+      <span className="kol-combo-swatch-label kol-helper-xs-2 text-auto">{label}</span>
+      <span className="kol-combo-swatch-hex kol-helper-xxs text-fg-48">{hex}</span>
+    </div>
+  )
 }
-
-const Chip = ({ active, children, onClick, swatch }) => (
-  <button type="button" style={active ? chipActive : chipBase} onClick={onClick}>
-    {swatch && <span style={{ width: 10, height: 10, borderRadius: 2, background: swatch, display: 'inline-block' }} />}
-    {children}
-  </button>
-)
-
-const Row = ({ label, children }) => (
-  <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', marginBottom: 12 }}>
-    <span className="kol-helper-xs-2 uppercase tracking-widest text-fg-48" style={{ minWidth: 72 }}>
-      {label}
-    </span>
-    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>{children}</div>
-  </div>
-)
 
 export default function ComboLab() {
   const [layoutId, setLayoutId] = useState(LAYOUTS[0].id)
@@ -55,32 +47,26 @@ export default function ComboLab() {
     <div className="kol-combo-lab">
       <div className="kol-combo-controls" data-reveal>
         <Row label="Layout">
-          {LAYOUTS.map((l) => (
-            <Chip key={l.id} active={l.id === layoutId} onClick={() => setLayoutId(l.id)}>
-              {l.label}
-            </Chip>
-          ))}
+          <ViewToggle viewMode={layoutId} onViewChange={setLayoutId} options={toOptions(LAYOUTS)} />
         </Row>
         <Row label="Palette">
-          {PALETTES.map((p) => (
-            <Chip key={p.id} active={p.id === paletteId} onClick={() => setPaletteId(p.id)} swatch={p.primary}>
-              {p.label}
-            </Chip>
-          ))}
+          <ViewToggle viewMode={paletteId} onViewChange={setPaletteId} options={toOptions(PALETTES)} />
         </Row>
         <Row label="Logo">
-          {LOGOS.map((l) => (
-            <Chip key={l.id} active={l.id === logoId} onClick={() => setLogoId(l.id)}>
-              {l.label}
-            </Chip>
-          ))}
+          <ViewToggle viewMode={logoId} onViewChange={setLogoId} options={toOptions(LOGOS)} />
         </Row>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 8 }}>
-          <button type="button" style={{ ...chipBase, padding: '8px 16px', fontWeight: 600 }} onClick={randomize}>
+        <div className="kol-combo-footer">
+          <button
+            type="button"
+            className="kol-combo-randomize kol-helper-xs-2 uppercase tracking-widest"
+            onClick={randomize}
+          >
             ↻ randomize
           </button>
-          <span className="kol-helper-xxs text-fg-48" style={{ flex: 1 }}>{palette.description}</span>
+          <span className="kol-combo-footer-desc kol-helper-xxs text-fg-48">
+            {palette.description}
+          </span>
         </div>
       </div>
 
@@ -98,7 +84,7 @@ export default function ComboLab() {
         <SwatchRow label="Accent"    hex={palette.accent} />
       </div>
 
-      <p className="kol-helper-xxs text-fg-48" style={{ marginTop: 16 }}>
+      <p className="kol-combo-summary kol-helper-xxs text-fg-48">
         <span className="text-fg-80">{layout.label}</span>
         {' × '}
         <span className="text-fg-80">{palette.label}</span>
@@ -108,11 +94,3 @@ export default function ComboLab() {
     </div>
   )
 }
-
-const SwatchRow = ({ label, hex }) => (
-  <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '6px 0' }}>
-    <span style={{ width: 24, height: 24, background: hex, borderRadius: 3, flexShrink: 0, transition: 'background 400ms ease' }} />
-    <span className="kol-helper-xs-2 text-auto" style={{ minWidth: 88, fontWeight: 600 }}>{label}</span>
-    <span className="kol-helper-xxs text-fg-48" style={{ fontFamily: 'var(--kol-font-family-mono, monospace)', textTransform: 'uppercase' }}>{hex}</span>
-  </div>
-)

@@ -1,0 +1,242 @@
+/**
+ * branded-house.css — /canalix/branded-house page specific styles.
+ *
+ * Lockup builder chrome: controls panel, stage, output, example library.
+ * The Lockup renderer uses inline styles only for props-derived values
+ * (sizes from scale dims, colors from theme palette). Constants live here.
+ */
+
+/* ───── Lockup renderer — shared typography + shell constants ───── */
+
+.kol-lockup-shell {
+  display: inline-flex;
+  border-radius: 4px;
+  transition: background 300ms ease, color 300ms ease;
+}
+
+.kol-lockup-shell--horizontal { align-items: flex-end; }
+.kol-lockup-shell--wordmark   { flex-direction: column; align-items: flex-start; }
+.kol-lockup-shell--hero       { align-items: flex-start; border-radius: 8px; }
+
+.kol-lockup-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.kol-lockup-column[data-align-end] { justify-content: flex-end; }
+
+.kol-lockup-row {
+  display: flex;
+  align-items: flex-end;
+}
+
+.kol-lockup-hero-body {
+  display: flex;
+  align-items: flex-start;
+}
+
+.kol-lockup-parent {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  color: inherit;
+}
+
+.kol-lockup-product {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: inherit;
+}
+
+.kol-lockup-product--hero { letter-spacing: -0.015em; }
+
+.kol-lockup-descriptor {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: inherit;
+}
+
+.kol-lockup-descriptor--muted  { font-weight: 500; opacity: 0.4; }
+.kol-lockup-descriptor--right  { text-align: right; }
+.kol-lockup-descriptor2        { align-self: flex-start; }
+
+/* Mark tile — size comes from --mark-size inline, rest stays here. */
+.kol-lockup-mark-tile {
+  width: var(--mark-size);
+  height: var(--mark-size);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  color: inherit;
+}
+
+.kol-lockup-mark-tile.is-framed {
+  padding: calc(var(--mark-size) * 0.12);
+  border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+  border-radius: max(4px, calc(var(--mark-size) * 0.08));
+}
+
+.kol-lockup-mark-svg { width: 100%; height: 100%; display: inline-flex; }
+.kol-lockup-mark-svg svg { width: 100%; height: 100%; display: block; }
+
+/* ───── Branded House builder ───── */
+
+.kol-bh-builder {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  grid-template-rows: 1fr;
+  gap: 32px;
+  min-height: 560px;
+}
+
+@media (max-width: 1024px) {
+  .kol-bh-builder { grid-template-columns: 1fr; }
+}
+
+.kol-bh-panel {
+  padding: 24px;
+  border: 1px solid var(--kol-fg-08);
+  border-radius: 4px;
+  background: var(--kol-fg-02);
+  align-self: flex-start;
+}
+
+/* Controls — use DS ViewToggle for radios; simple DS-tokenized rules for rest */
+.kol-bh-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.kol-bh-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kol-bh-field-label { font-weight: 600; }
+
+.kol-bh-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+  color: var(--kol-surface-on-primary);
+  background: var(--kol-fg-04);
+  border: 1px solid var(--kol-fg-16);
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.kol-bh-input::placeholder {
+  color: var(--kol-fg-32);
+}
+
+.kol-bh-input:focus {
+  border-color: var(--kol-fg-48);
+  background: var(--kol-fg-06);
+}
+
+.kol-bh-copy {
+  margin-top: 8px;
+  padding: 12px 20px;
+  width: 100%;
+  background: var(--kol-fg-08);
+  color: var(--kol-surface-on-primary);
+  border: 1px solid var(--kol-fg-32);
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+
+.kol-bh-copy:hover {
+  background: var(--kol-fg-12);
+  border-color: var(--kol-fg-48);
+}
+
+.kol-bh-copy.is-copied {
+  background: var(--kol-accent-primary, var(--kol-surface-on-primary));
+  color: var(--kol-surface-primary);
+  border-color: transparent;
+}
+
+.kol-bh-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.kol-bh-stage-inner {
+  flex: 1;
+  border: 1px solid var(--kol-fg-08);
+  border-radius: 4px;
+  padding: var(--kol-pad-section-x);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 420px;
+  overflow: auto;
+  position: relative;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--kol-fg-02),
+    var(--kol-fg-02) 12px,
+    var(--kol-fg-04) 12px,
+    var(--kol-fg-04) 24px
+  );
+}
+
+.kol-bh-output {
+  margin: 0;
+  padding: 16px 20px;
+  border: 1px solid var(--kol-fg-08);
+  border-radius: 4px;
+  background: var(--kol-fg-03);
+  font-family: var(--kol-font-family-mono, monospace);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--kol-fg-80);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* Library grid */
+.kol-bh-lib-group {
+  margin-bottom: 40px;
+}
+
+.kol-bh-lib-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.kol-bh-lib-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+  border: 1px solid var(--kol-fg-08);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  min-height: 120px;
+  transition: border-color 150ms ease, transform 150ms ease, background 150ms ease;
+}
+
+.kol-bh-lib-card:hover {
+  border-color: var(--kol-fg-32);
+  background: var(--kol-fg-02);
+  transform: translateY(-1px);
+}
+

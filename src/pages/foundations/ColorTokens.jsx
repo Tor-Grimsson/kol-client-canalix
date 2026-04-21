@@ -48,28 +48,6 @@ const FEEDBACK = [
   },
 ]
 
-const SwatchDot = ({ hex, size = 18 }) => (
-  <span
-    aria-hidden="true"
-    style={{
-      display: 'inline-block', width: size, height: size, borderRadius: 3, background: hex,
-      border: '1px solid color-mix(in srgb, var(--kol-surface-on-primary) 12%, transparent)',
-      verticalAlign: 'middle', marginRight: 8,
-    }}
-  />
-)
-
-const BrandBadge = ({ brand }) => (
-  <span
-    className="kol-anatomy-brand-dot"
-    data-brand={brand}
-    style={{ marginRight: 0 }}
-    title={brand}
-  >
-    {brand === 'canalix' ? 'CN' : 'CD'}
-  </span>
-)
-
 const PAIR_COPY = {
   success: { title: 'Confirmed',         body: 'Order submitted successfully.' },
   warning: { title: 'Attention needed',  body: 'Two fields require review.' },
@@ -77,16 +55,24 @@ const PAIR_COPY = {
   info:    { title: 'Tip',               body: 'Transcripts attach automatically.' },
 }
 
+const SwatchDot = ({ hex }) => (
+  <span aria-hidden="true" className="kol-color-swatch-dot" style={{ background: hex }} />
+)
+
+const BrandBadge = ({ brand }) => (
+  <span className="kol-anatomy-brand-dot" data-brand={brand} title={brand}>
+    {brand === 'canalix' ? 'CN' : 'CD'}
+  </span>
+)
+
 function PairSample({ bg, fg, pair }) {
   const copy = PAIR_COPY[pair] ?? { title: 'Sample', body: 'The quick brown fox.' }
+  /* background + color are data-driven (BG/FG hex); border derives from color
+     via currentColor inside the class rule, so it tracks the inline color. */
   return (
-    <div style={{
-      background: bg, color: fg, borderRadius: 4, padding: '14px 16px',
-      minWidth: 220, display: 'flex', flexDirection: 'column', gap: 4,
-      border: `1px solid color-mix(in srgb, ${fg} 16%, transparent)`,
-    }}>
-      <span style={{ fontSize: 13, fontWeight: 700, lineHeight: 1.3 }}>{copy.title}</span>
-      <span style={{ fontSize: 12, opacity: 0.84, lineHeight: 1.4 }}>{copy.body}</span>
+    <div className="kol-color-pair-sample" style={{ background: bg, color: fg }}>
+      <span className="kol-color-pair-title">{copy.title}</span>
+      <span className="kol-color-pair-body">{copy.body}</span>
     </div>
   )
 }
@@ -100,8 +86,8 @@ export default function ColorTokens() {
       body="Flat reference. First table is the primitives inventory across both brands. Second is the feedback pair set — each row is a background/foreground combination designed to pass contrast together."
     >
       {/* Primitives table */}
-      <div data-reveal style={{ marginBottom: 48 }}>
-        <div className="kol-helper-xs-2 uppercase tracking-widest text-auto" style={{ fontWeight: 600, marginBottom: 16 }}>
+      <div className="kol-color-section" data-reveal>
+        <div className="kol-color-section-title kol-helper-xs-2 uppercase tracking-widest text-auto">
           Primitives
         </div>
         <div className="kol-color-table-wrap">
@@ -132,7 +118,7 @@ export default function ColorTokens() {
 
       {/* Feedback table */}
       <div data-reveal>
-        <div className="kol-helper-xs-2 uppercase tracking-widest text-auto" style={{ fontWeight: 600, marginBottom: 16 }}>
+        <div className="kol-color-section-title kol-helper-xs-2 uppercase tracking-widest text-auto">
           Feedback pairs
         </div>
         <div className="kol-color-table-wrap">
@@ -149,17 +135,17 @@ export default function ColorTokens() {
             <tbody>
               {FEEDBACK.map((f) => (
                 <tr key={f.pair}>
-                  <td className="kol-color-table-mono" style={{ textTransform: 'uppercase' }}>{f.pair}</td>
+                  <td className="kol-color-table-mono kol-color-pair-name">{f.pair}</td>
                   <td><PairSample bg={f.bg.hex} fg={f.fg.hex} pair={f.pair} /></td>
                   <td>
                     <SwatchDot hex={f.bg.hex} />
                     <span className="kol-color-table-mono">{f.bg.hex.toUpperCase()}</span>
-                    <span className="kol-helper-xxs text-fg-48" style={{ marginLeft: 8 }}>{f.bg.token}</span>
+                    <span className="kol-helper-xxs text-fg-48 kol-color-token-name">{f.bg.token}</span>
                   </td>
                   <td>
                     <SwatchDot hex={f.fg.hex} />
                     <span className="kol-color-table-mono">{f.fg.hex.toUpperCase()}</span>
-                    <span className="kol-helper-xxs text-fg-48" style={{ marginLeft: 8 }}>{f.fg.token}</span>
+                    <span className="kol-helper-xxs text-fg-48 kol-color-token-name">{f.fg.token}</span>
                   </td>
                   <td className="text-fg-80">{f.usage}</td>
                 </tr>

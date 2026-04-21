@@ -40,19 +40,11 @@ const textOn = (hex) => (luminance(hex) > 0.55 ? '#0E0E11' : '#FAFAFA')
 const SpectrumChip = ({ item }) => (
   <div className="kol-anatomy-chip" style={{ background: item.hex, color: textOn(item.hex) }}>
     <div className="kol-anatomy-chip-head">
-      <span className="kol-helper-xxs" style={{ fontWeight: 600, letterSpacing: '0.06em' }}>
-        {item.name}
-      </span>
-      {item.role && (
-        <span className="kol-helper-xxs" style={{ opacity: 0.64, textTransform: 'uppercase', fontSize: 9 }}>
-          {item.role}
-        </span>
-      )}
+      <span className="kol-helper-xxs kol-anatomy-name">{item.name}</span>
+      {item.role && <span className="kol-helper-xxs kol-anatomy-chip-role">{item.role}</span>}
     </div>
     <div className="kol-anatomy-chip-foot">
-      <span style={{ fontFamily: 'var(--kol-font-family-mono, monospace)', fontSize: 10 }}>
-        {item.hex.toUpperCase()}
-      </span>
+      <span className="kol-anatomy-hex">{item.hex.toUpperCase()}</span>
       <span className="kol-anatomy-brand-dot" data-brand={item.brand}>
         {item.brand === 'canalix' ? 'CN' : 'CD'}
       </span>
@@ -61,9 +53,9 @@ const SpectrumChip = ({ item }) => (
 )
 
 const BrandStrip = ({ label, colors, tone }) => (
-  <div style={{ marginBottom: 24 }} data-reveal>
-    <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 8 }}>
-      <span className="kol-helper-xs-2 uppercase tracking-widest text-auto" style={{ fontWeight: 600 }}>
+  <div className="kol-anatomy-strip-wrap" data-reveal>
+    <div className="kol-anatomy-section-head">
+      <span className="kol-helper-xs-2 uppercase tracking-widest text-auto kol-anatomy-section-title">
         {label}
       </span>
       <span className="kol-helper-xxs text-fg-48">{tone}</span>
@@ -75,12 +67,8 @@ const BrandStrip = ({ label, colors, tone }) => (
           className="kol-anatomy-strip-cell"
           style={{ background: c.hex, color: textOn(c.hex) }}
         >
-          <span className="kol-helper-xxs" style={{ fontWeight: 600, letterSpacing: '0.06em' }}>
-            {c.name}
-          </span>
-          <span style={{ fontFamily: 'var(--kol-font-family-mono, monospace)', fontSize: 10, opacity: 0.72 }}>
-            {c.hex.toUpperCase()}
-          </span>
+          <span className="kol-helper-xxs kol-anatomy-name">{c.name}</span>
+          <span className="kol-anatomy-hex">{c.hex.toUpperCase()}</span>
         </div>
       ))}
     </div>
@@ -95,9 +83,9 @@ export default function ColorAnatomy() {
       title="One system, two contributors"
       body="Color is a shared primitive, not a brand-owned set. Every tone below lives on one luminance spectrum — Canalix contributes the warm, editorial end; Casedoc contributes the bright, clinical end. Both brands use the full range."
     >
-      <div data-reveal style={{ marginBottom: 48 }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 8 }}>
-          <span className="kol-helper-xs-2 uppercase tracking-widest text-auto" style={{ fontWeight: 600 }}>
+      <div className="kol-anatomy-intro" data-reveal>
+        <div className="kol-anatomy-section-head">
+          <span className="kol-helper-xs-2 uppercase tracking-widest text-auto kol-anatomy-section-title">
             Shared spectrum · luminance sort
           </span>
           <span className="kol-helper-xxs text-fg-48">

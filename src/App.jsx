@@ -16,6 +16,8 @@ import CanalixHome from './pages/client-site/CanalixHome'
 import CanalixSolutions from './pages/client-site/CanalixSolutions'
 import CanalixAbout from './pages/client-site/CanalixAbout'
 import CanalixBlog from './pages/client-site/CanalixBlog'
+import CanalixBlogArticle from './pages/client-site/CanalixBlogArticle'
+import CanalixBlogAuthor from './pages/client-site/CanalixBlogAuthor'
 import CanalixContact from './pages/client-site/CanalixContact'
 import CasedocHome from './pages/client-site/CasedocHome'
 import CasedocFeatures from './pages/client-site/CasedocFeatures'
@@ -46,6 +48,8 @@ export default function App() {
           <Route path="/canalix/site/solutions" element={<CanalixSolutions />} />
           <Route path="/canalix/site/about" element={<CanalixAbout />} />
           <Route path="/canalix/site/blog" element={<CanalixBlog />} />
+          <Route path="/canalix/site/blog/author/:slug" element={<CanalixBlogAuthor />} />
+          <Route path="/canalix/site/blog/:slug" element={<CanalixBlogArticle />} />
           <Route path="/canalix/site/contact" element={<CanalixContact />} />
 
           <Route path="/canalix/site/casedoc" element={<CasedocHome />} />
