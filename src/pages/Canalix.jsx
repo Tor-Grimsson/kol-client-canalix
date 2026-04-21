@@ -1,20 +1,17 @@
 import { Link } from 'react-router-dom'
 import Ramp from '../components/brand/Ramp'
 import TypeSample from '../components/brand/TypeSample'
-import AssetGrid from '../components/brand/AssetGrid'
-import AssetFigure from '../components/brand/AssetFigure'
+import AssetCarousel from '../components/brand/AssetCarousel'
 import BrandLogo from '../components/marks/BrandLogo'
-import MoodTile from '../components/cards/MoodTile'
 import BrandHero from '../components/cards/BrandHero'
 import PageSection from '../components/cards/PageSection'
 import LogoCarousel from '../components/cards/LogoCarousel'
 import TypeScaleSection from '../components/cards/TypeScaleSection'
 import ProsePreview from '../components/cards/ProsePreview'
-import Carousel from '../components/ui/Carousel'
 import usePageTitle from '../hooks/usePageTitle'
 import {
-  identityRamps, logoVariants, moodFiles, stationeryFiles, patternFiles,
-  brandFeelSlides, montserratScale, hattonScale,
+  identityRamps, logoVariants, moodItems, stationeryItems, patternItems,
+  brandedHouseItems, brandDeckItems, montserratScale, hattonScale,
 } from './canalix-data'
 
 /* Hatton scale table columns — rendered as JSX, so stays with the component.
@@ -153,11 +150,7 @@ export default function Canalix() {
         title="Tileable patterns"
         body="Twenty pattern variants built from the logomark — navy texture tiles, cream marketing backgrounds, and blue section dividers."
       >
-        <AssetGrid cols={4}>
-          {patternFiles.map((f) => (
-            <AssetFigure key={f} src={`/brand/canalix/patterns/${f}.svg`} alt={`pattern ${f}`} caption={`pattern ${f}`} />
-          ))}
-        </AssetGrid>
+        <AssetCarousel items={patternItems} />
       </PageSection>
 
       <PageSection
@@ -166,11 +159,7 @@ export default function Canalix() {
         title="Mood imagery"
         body="Desert-dune palette matches the warm identity tones. The Canalix logomark is overlaid on each plate — one source image, one composition rule."
       >
-        <AssetGrid cols={2}>
-          {moodFiles.map((f) => (
-            <MoodTile key={f} brand="canalix" src={`/brand/canalix/mood/${f}.png`} alt={f} caption={f} />
-          ))}
-        </AssetGrid>
+        <AssetCarousel items={moodItems} />
       </PageSection>
 
       <PageSection
@@ -179,13 +168,7 @@ export default function Canalix() {
         title="Branded House architecture"
         body="One master brand at the top. Products and sub-brands hang beneath it. Casedoc is the flagship — the first child and the most elaborated."
       >
-        <img className="kol-figure-img" src="/brand/canalix/branded-house/Branded House 2_01.svg" alt="Branded House — overview" />
-        <AssetGrid cols={2}>
-          <AssetFigure src="/brand/canalix/branded-house/Branded House 2_03.svg" alt="product tier" caption="product tier" />
-          <AssetFigure src="/brand/canalix/branded-house/Branded House 2_04.svg" alt="sub-brand tier" caption="sub-brand tier" />
-          <AssetFigure src="/brand/canalix/branded-house/Branded House 2_05.svg" alt="extended lockups" caption="extended lockups" />
-          <AssetFigure src="/brand/canalix/branded-house/Branded House 2_06.svg" alt="mixed examples" caption="mixed examples" />
-        </AssetGrid>
+        <AssetCarousel items={brandedHouseItems} />
       </PageSection>
 
       <PageSection
@@ -194,11 +177,7 @@ export default function Canalix() {
         title="Collateral"
         body="Email signatures and namecards. Identity collateral for the Canalix team."
       >
-        <AssetGrid cols={3}>
-          {stationeryFiles.map((f) => (
-            <AssetFigure key={f} src={`/brand/canalix/stationery/${f}@2x.png`} alt={`Stationery ${f}`} caption={f} />
-          ))}
-        </AssetGrid>
+        <AssetCarousel items={stationeryItems} />
       </PageSection>
 
       <PageSection
@@ -219,21 +198,7 @@ export default function Canalix() {
         title="Brand deck"
         body="The complete Canalix identity in sequence — brand sheet summary first, then fourteen Brand Feel slides covering identity, style, and branded-house application."
       >
-        <Carousel className="is-slides">
-          <AssetFigure
-            src="/brand/canalix/brand-sheet/summary.svg"
-            alt="Canalix brand sheet summary"
-            caption="brand sheet"
-          />
-          {brandFeelSlides.map((f) => (
-            <AssetFigure
-              key={f}
-              src={`/brand/canalix/slides/${f}.png`}
-              alt={`Canalix slide · ${f}`}
-              caption={f}
-            />
-          ))}
-        </Carousel>
+        <AssetCarousel items={brandDeckItems} className="is-slides" />
       </PageSection>
     </>
   )

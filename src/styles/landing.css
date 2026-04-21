@@ -644,22 +644,21 @@
   max-width: 36ch;
 }
 
+.landing-gallery-viewport {
+  overflow: hidden;
+  padding: 0 var(--kol-pad-page-x) 24px;
+  cursor: grab;
+}
+
+.landing-gallery-viewport:active { cursor: grabbing; }
+
 .landing-gallery-track {
   display: flex;
   gap: 24px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  padding: 0 var(--kol-pad-page-x) 24px;
-  scroll-padding-left: var(--kol-pad-page-x);
 }
-
-.landing-gallery-track::-webkit-scrollbar { display: none; }
 
 .landing-gallery-card {
   flex: 0 0 clamp(280px, 32vw, 440px);
-  scroll-snap-align: start;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -678,7 +677,6 @@
   border-radius: 4px;
   overflow: hidden;
   background: var(--landing-navy);
-  border: 1px solid color-mix(in srgb, var(--landing-ink) 8%, transparent);
 }
 
 .landing-gallery-card-visual img {
@@ -732,7 +730,7 @@
   opacity: 0.9;
 }
 
-.landing-gallery-card-mark-slot { width: 52%; }
+.landing-gallery-card-mark-overlay .kol-brand-logo { width: 44%; }
 
 .landing-gallery-card-letter {
   position: absolute;
@@ -861,18 +859,14 @@
   flex-direction: column;
 }
 
-.landing-faq-item {
+.landing-faq-item + .landing-faq-item {
   border-top: 1px solid color-mix(in srgb, var(--landing-ink) 8%, transparent);
-}
-
-.landing-faq-item:last-child {
-  border-bottom: 1px solid color-mix(in srgb, var(--landing-ink) 8%, transparent);
 }
 
 .landing-faq-item > summary {
   list-style: none;
   cursor: pointer;
-  padding: 24px 0;
+  padding: 28px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -909,7 +903,7 @@
 }
 
 .landing-faq-item-body {
-  padding: 0 0 24px;
+  padding: 0 0 28px;
   font-family: "Montserrat", sans-serif;
   font-size: 15px;
   line-height: 1.6;

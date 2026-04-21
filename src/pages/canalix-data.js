@@ -32,15 +32,33 @@ export const logoVariants = [
   { name: 'wordmark',    caption: 'wordmark' },
 ]
 
-export const moodFiles = ['mood-no-logo-01', 'mood-no-logo-02', 'mood-no-logo-03', 'mood-no-logo-04']
-export const stationeryFiles = ['01', '02', '03']
-export const patternFiles = Array.from({ length: 20 }, (_, i) => String(i + 1).padStart(2, '0'))
+export const moodItems = ['mood-no-logo-01', 'mood-no-logo-02', 'mood-no-logo-03', 'mood-no-logo-04']
+  .map((f) => ({ brand: 'canalix', src: `/brand/canalix/mood/${f}.png`, alt: f, caption: f, fit: 'cover' }))
 
-export const brandFeelSlides = [
+export const stationeryItems = ['01', '02', '03']
+  .map((f) => ({ src: `/brand/canalix/stationery/${f}@2x.png`, alt: `Stationery ${f}`, caption: f }))
+
+export const patternItems = Array.from({ length: 20 }, (_, i) => String(i + 1).padStart(2, '0'))
+  .map((f) => ({ src: `/brand/canalix/patterns/${f}.svg`, alt: `pattern ${f}`, caption: `pattern ${f}` }))
+
+export const brandedHouseItems = [
+  { src: '/brand/canalix/branded-house/Branded House 2_01.svg', alt: 'Branded House overview', caption: 'overview' },
+  { src: '/brand/canalix/branded-house/Branded House 2_03.svg', alt: 'product tier',           caption: 'product tier' },
+  { src: '/brand/canalix/branded-house/Branded House 2_04.svg', alt: 'sub-brand tier',         caption: 'sub-brand tier' },
+  { src: '/brand/canalix/branded-house/Branded House 2_05.svg', alt: 'extended lockups',       caption: 'extended lockups' },
+  { src: '/brand/canalix/branded-house/Branded House 2_06.svg', alt: 'mixed examples',         caption: 'mixed examples' },
+]
+
+const brandFeelSlides = [
   'Brand Feel_01', 'Brand Feel_02', 'Brand Feel_03', 'Brand Feel_04',
   'Brand Feel_05', 'Brand Feel_06', 'Brand Feel_07', 'Brand Feel_08', 'Brand Feel_09',
   'Feel 2_01', 'Feel 2_02', 'Feel 2_04',
   'Brand sheets',
+]
+
+export const brandDeckItems = [
+  { src: '/brand/canalix/brand-sheet/summary.svg', alt: 'Canalix brand sheet summary', caption: 'brand sheet' },
+  ...brandFeelSlides.map((f) => ({ src: `/brand/canalix/slides/${f}.png`, alt: `Canalix slide · ${f}`, caption: f })),
 ]
 
 export const montserratScale = [

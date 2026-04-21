@@ -46,23 +46,30 @@ export const logoVariants = [
   { name: 'wordmark',            caption: 'wordmark' },
 ]
 
-export const productUiFiles = [
-  { src: '/brand/casedoc/product-ui/Product UI Abstractions_01.svg',   caption: 'abstraction 01' },
-  { src: '/brand/casedoc/product-ui/Product UI Abstractions_02.svg',   caption: 'abstraction 02' },
-  { src: '/brand/casedoc/product-ui/Product UI Abstractions_02-1.svg', caption: 'abstraction 02·alt' },
-  { src: '/brand/casedoc/product-ui/Product UI Abstractions_03.svg',   caption: 'abstraction 03' },
-  { src: '/brand/casedoc/product-ui/01.svg', caption: 'window 01' },
-  { src: '/brand/casedoc/product-ui/02.svg', caption: 'window 02' },
-  { src: '/brand/casedoc/product-ui/03.svg', caption: 'window 03' },
-  { src: '/brand/casedoc/product-ui/04.svg', caption: 'window 04' },
+export const productUiItems = [
+  { src: '/brand/casedoc/product-ui/Product UI Abstractions_01.svg',   alt: 'abstraction 01',     caption: 'abstraction 01' },
+  { src: '/brand/casedoc/product-ui/Product UI Abstractions_02.svg',   alt: 'abstraction 02',     caption: 'abstraction 02' },
+  { src: '/brand/casedoc/product-ui/Product UI Abstractions_02-1.svg', alt: 'abstraction 02·alt', caption: 'abstraction 02·alt' },
+  { src: '/brand/casedoc/product-ui/Product UI Abstractions_03.svg',   alt: 'abstraction 03',     caption: 'abstraction 03' },
+  { src: '/brand/casedoc/product-ui/01.svg', alt: 'window 01', caption: 'window 01' },
+  { src: '/brand/casedoc/product-ui/02.svg', alt: 'window 02', caption: 'window 02' },
+  { src: '/brand/casedoc/product-ui/03.svg', alt: 'window 03', caption: 'window 03' },
+  { src: '/brand/casedoc/product-ui/04.svg', alt: 'window 04', caption: 'window 04' },
 ]
 
-export const deviceFiles = ['01', '02', '03', '04', '05']
-export const graphicsB = ['01', '02', '03', '04', '05']
-export const graphicsC = ['01', '02']
-export const brandedProduct = ['branded house', 'branded house-1', 'branded house-2', 'branded house-3', 'branded house-4']
+export const deviceItems = ['01', '02', '03', '04', '05']
+  .map((f) => ({ src: `/brand/casedoc/devices/${f}.svg`, alt: `Device mockup ${f}`, caption: `device ${f}` }))
 
-export const slideFiles = Array.from({ length: 14 }, (_, i) => String(i + 1).padStart(2, '0'))
+export const graphicsItems = [
+  ...['01', '02', '03', '04', '05'].map((f) => ({ src: `/brand/casedoc/graphics/b/${f}.svg`, alt: `Graphics B ${f}`, caption: `graphics-b · ${f}` })),
+  ...['01', '02'].map((f) => ({ src: `/brand/casedoc/graphics/c/${f}.svg`, alt: `Graphics C ${f}`, caption: `graphics-c · ${f}` })),
+]
+
+export const brandedProductItems = ['branded house', 'branded house-1', 'branded house-2', 'branded house-3', 'branded house-4']
+  .map((f) => ({ src: `/brand/casedoc/branded-product/${f}.svg`, alt: f, caption: f }))
+
+export const slideItems = Array.from({ length: 14 }, (_, i) => String(i + 1).padStart(2, '0'))
+  .map((f) => ({ src: `/brand/casedoc/slides/${f}.svg`, alt: `Casedoc slide ${f}`, caption: f }))
 
 export const montserratScale = [
   { token: 'H1',      weight: 700, size: 56, lh: 64 },

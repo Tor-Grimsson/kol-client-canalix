@@ -53,7 +53,7 @@ export const GALLERY = [
     to: '/foundations#color-tokens', kicker: '03 · Color',
     title: 'One spectrum, two contributors',
     desc: 'Shared luminance range. Canalix warms the top; Casedoc cools the middle.',
-    bg: 'linear-gradient(135deg, #DEB430 0%, #B5523F 45%, #00469C 100%)',
+    bg: "url('/brand/canalix/mood/mood-no-logo-04.png') center/cover #142438",
   },
   {
     to: '/canalix/branded-house', kicker: '04 · Lockups',
@@ -68,7 +68,7 @@ export const GALLERY = [
     to: '/canalix/marks', kicker: '05 · Marks',
     title: 'Thirty-six product icons',
     desc: 'Fifteen accent marks, twenty-one mono. Each a currentColor SVG ready to compose.',
-    bg: 'linear-gradient(135deg, #142438 0%, #DEB430 220%)',
+    bg: 'radial-gradient(ellipse at 85% 15%, #8B6A1C 0%, #2A2E3E 40%, #0E1A2A 100%)',
   },
   {
     to: '/casedoc', kicker: '06 · Flagship',

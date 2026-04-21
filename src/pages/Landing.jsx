@@ -1,13 +1,17 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'
+import useEmblaCarousel from 'embla-carousel-react'
 import BrandLogo from '../components/marks/BrandLogo'
 import usePageTitle from '../hooks/usePageTitle'
 import { WORD, MARQUEE, GALLERY, FAQ } from './landing-data'
 
+const GALLERY_EMBLA_OPTS = { align: 'start', dragFree: true, containScroll: 'trimSnaps' }
+
 export default function Landing() {
   usePageTitle()
   const introRef = useRef(null)
+  const [galleryRef] = useEmblaCarousel(GALLERY_EMBLA_OPTS)
 
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -139,10 +143,12 @@ export default function Landing() {
             Seven entry points — marks, typography, color, lockups, products, and the live site.
           </span>
         </div>
-        <div className="landing-gallery-track">
-          {GALLERY.map((card, i) => (
-            <GalleryCard key={i} {...card} />
-          ))}
+        <div className="landing-gallery-viewport" ref={galleryRef}>
+          <div className="landing-gallery-track">
+            {GALLERY.map((card, i) => (
+              <GalleryCard key={i} {...card} />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -283,9 +289,7 @@ function GalleryCard({ to, kicker, title, desc, bg, mark, letter, letterFont, le
       <div className="landing-gallery-card-visual" style={{ background: bg }}>
         {mark && (
           <div className="landing-gallery-card-mark-overlay" style={{ color: mark.tint }}>
-            <span className="landing-gallery-card-mark-slot">
-              <BrandLogo brand={mark.brand} name={mark.name} light />
-            </span>
+            <BrandLogo brand={mark.brand} name={mark.name} light />
           </div>
         )}
         {letter && (

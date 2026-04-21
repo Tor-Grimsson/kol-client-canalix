@@ -48,9 +48,38 @@ body {
      Distinct from DS --kol-transition-base (which uses a Material cubic-bezier).
      Intentional: site chrome uses browser-ease for a softer feel. */
   --kol-t-btn: background 200ms ease, color 200ms ease, border-color 200ms ease;
+
+  /* Stepped page / section / band padding tokens.
+     Used by chrome (topnav, sidenav) and landing bands. Scaled at 768 / 1024
+     breakpoints so one set of rules covers mobile → desktop without clamp(). */
+  --kol-pad-page-x:    20px;
+  --kol-pad-page-y:    64px;
+  --kol-pad-section-x: 20px;
+  --kol-pad-section-y: 48px;
+  --kol-pad-band-y:    56px;
 }
 
-@media (min-width: 1024px) { :root { --kol-container-max: 1400px; } }
+@media (min-width: 768px) {
+  :root {
+    --kol-pad-page-x:    32px;
+    --kol-pad-page-y:    96px;
+    --kol-pad-section-x: 32px;
+    --kol-pad-section-y: 64px;
+    --kol-pad-band-y:    80px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --kol-container-max: 1400px;
+    --kol-pad-page-x:    56px;
+    --kol-pad-page-y:    128px;
+    --kol-pad-section-x: 48px;
+    --kol-pad-section-y: 80px;
+    --kol-pad-band-y:    104px;
+  }
+}
+
 @media (min-width: 1280px) { :root { --kol-container-max: 1600px; } }
 
 :root[data-sidenav="collapsed"] { --kol-sidenav-w: var(--kol-sidenav-w-collapsed); }
@@ -425,8 +454,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  position: sticky;
-  top: 96px;
 }
 
 .kol-concept-row-figure img {
@@ -769,6 +796,83 @@ body {
 /* ───── Fullscreen gallery tile ───── */
 
 .kol-fs-tile { cursor: zoom-in; }
+
+/* ───── Asset carousel + card tiles ─────
+   Section owns the height: the carousel viewport is a fixed box, and cards
+   flex to fill it. Frame holds the image, caption sits under it at natural
+   height. Image mode: default `contain` (artwork/diagrams), opt-in `.is-cover`
+   (photos, screenshots) crops to the top. */
+
+.kol-embla.kol-asset-carousel .kol-embla-viewport {
+  height: 440px;
+}
+
+.kol-embla.kol-asset-carousel.is-slides .kol-embla-viewport {
+  height: 560px;
+}
+
+.kol-embla.kol-asset-carousel .kol-embla-container {
+  height: 100%;
+  align-items: stretch;
+}
+
+.kol-embla.kol-asset-carousel .kol-embla-slide {
+  height: 100%;
+}
+
+.kol-asset-card {
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kol-asset-card-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  padding: 0;
+  border: 1px solid var(--kol-fg-08);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--kol-fg-04);
+  cursor: zoom-in;
+  transition: border-color 200ms ease;
+}
+
+.kol-asset-card-frame:hover {
+  border-color: var(--kol-fg-24);
+}
+
+.kol-asset-card-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  padding: 16px;
+}
+
+.kol-asset-card-frame.is-cover img {
+  object-fit: cover;
+  object-position: top center;
+  padding: 0;
+}
+
+.kol-asset-card-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--kol-fg-96);
+  pointer-events: none;
+}
+
+.kol-asset-card-overlay .kol-brand-logo { width: 24%; }
 
 /* ───── Website preview ───── */
 

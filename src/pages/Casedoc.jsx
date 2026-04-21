@@ -2,20 +2,18 @@ import { Link } from 'react-router-dom'
 import Ramp from '../components/brand/Ramp'
 import Swatch from '../components/brand/Swatch'
 import TypeSample from '../components/brand/TypeSample'
-import AssetGrid from '../components/brand/AssetGrid'
-import AssetFigure from '../components/brand/AssetFigure'
+import AssetCarousel from '../components/brand/AssetCarousel'
 import BrandLogo from '../components/marks/BrandLogo'
 import BrandHero from '../components/cards/BrandHero'
 import PageSection from '../components/cards/PageSection'
 import LogoCarousel from '../components/cards/LogoCarousel'
 import TypeScaleSection from '../components/cards/TypeScaleSection'
 import ProsePreview from '../components/cards/ProsePreview'
-import Carousel from '../components/ui/Carousel'
 import usePageTitle from '../hooks/usePageTitle'
 import {
   CASEDOC_BACKDROP, productRamps, coreStops, accentStops, logoVariants,
-  productUiFiles, deviceFiles, graphicsB, graphicsC, brandedProduct,
-  slideFiles, montserratScale,
+  productUiItems, deviceItems, graphicsItems, brandedProductItems,
+  slideItems, montserratScale,
 } from './casedoc-data'
 
 export default function Casedoc() {
@@ -143,9 +141,7 @@ export default function Casedoc() {
         title="UI abstractions"
         body="Stylized panels showing the product UI language — dark canvas, cyan and yellow functional accents, data-dense layouts."
       >
-        <AssetGrid cols={2}>
-          {productUiFiles.map((p) => <AssetFigure key={p.src} src={p.src} alt={p.caption} caption={p.caption} />)}
-        </AssetGrid>
+        <AssetCarousel items={productUiItems} />
       </PageSection>
 
       <PageSection
@@ -154,11 +150,7 @@ export default function Casedoc() {
         title="Devices"
         body="Casedoc on phone and desktop. Marketing mocks featuring the core product strings."
       >
-        <AssetGrid cols={3}>
-          {deviceFiles.map((f) => (
-            <AssetFigure key={f} src={`/brand/casedoc/devices/${f}.svg`} alt={`Device mockup ${f}`} caption={`device ${f}`} />
-          ))}
-        </AssetGrid>
+        <AssetCarousel items={deviceItems} />
       </PageSection>
 
       <PageSection
@@ -167,14 +159,7 @@ export default function Casedoc() {
         title="Marketing graphics"
         body="Narrative and product-illustration graphics."
       >
-        <AssetGrid cols={2}>
-          {graphicsB.map((f) => (
-            <AssetFigure key={`b-${f}`} src={`/brand/casedoc/graphics/b/${f}.svg`} alt={`Graphics B ${f}`} caption={`graphics-b · ${f}`} />
-          ))}
-          {graphicsC.map((f) => (
-            <AssetFigure key={`c-${f}`} src={`/brand/casedoc/graphics/c/${f}.svg`} alt={`Graphics C ${f}`} caption={`graphics-c · ${f}`} />
-          ))}
-        </AssetGrid>
+        <AssetCarousel items={graphicsItems} />
       </PageSection>
 
       <PageSection
@@ -183,11 +168,7 @@ export default function Casedoc() {
         title="A product in the house"
         body={<>Casedoc sits inside the Canalix Branded House as its flagship product. For the full house, see <Link to="/canalix#house">Canalix · architecture</Link>.</>}
       >
-        <AssetGrid cols={2}>
-          {brandedProduct.map((f) => (
-            <AssetFigure key={f} src={`/brand/casedoc/branded-product/${f}.svg`} alt={f} caption={f} />
-          ))}
-        </AssetGrid>
+        <AssetCarousel items={brandedProductItems} />
       </PageSection>
 
       <PageSection
@@ -208,16 +189,7 @@ export default function Casedoc() {
         title="Brand deck"
         body="The complete Casedoc brand deck — concept, identity, typography, application. Fourteen slides, scroll through."
       >
-        <Carousel className="is-slides">
-          {slideFiles.map((f) => (
-            <AssetFigure
-              key={f}
-              src={`/brand/casedoc/slides/${f}.svg`}
-              alt={`Casedoc slide ${f}`}
-              caption={f}
-            />
-          ))}
-        </Carousel>
+        <AssetCarousel items={slideItems} className="is-slides" />
       </PageSection>
     </>
   )
